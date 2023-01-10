@@ -22,11 +22,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.DTO.roomDTO
+import com.example.toyproject.DTO.room_result
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -55,8 +59,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     // 사용자 위치
     var userPosition : MapPoint? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     lateinit var mainActivity: MainActivity
@@ -65,28 +67,31 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     private var maptext : TextView? = null
     private var u_location : ConstraintLayout? = null
     private var marker : MapPOIItem? = null
-
     private var marker_name : String? = null
     private var marker_add : String? = null
     private var marker_price : Int? = null
+    lateinit var behavior : BottomSheetBehavior<View>
+    lateinit var RoomRecyclerView : RecyclerView
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
 
-        val dashboardViewModel = ViewModelProvider(this)[MapViewModel::class.java]
+        mainActivity = context as MainActivity
 
+        val dashboardViewModel = ViewModelProvider(this)[MapViewModel::class.java]
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        mainActivity = context as MainActivity
 
         mapViewContainer = binding.mapView
         maptext = binding.textMap
         marker = MapPOIItem()
         u_location = binding.location
+        behavior = BottomSheetBehavior.from(binding.bottomLayout)
+        RoomRecyclerView = binding.recyclerView
 
         return root
     }
@@ -94,18 +99,35 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     override fun onResume() {
         super.onResume()
 
+        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                Log.d("statechanged", "statechanged")
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                Log.d("statechanged", "onslide")
+            }
+
+        })
+
         call!!.getRoom().enqueue(object : Callback<roomDTO> {
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
                     val r_result : roomDTO? = response.body()
+
                     r_result!!.apply {
                         marker_name = result[0].roomName
                         marker_add = result[0].location
                         marker_price = result[0].price1
                     }
 
+                    val roomList = r_result.result
+                    RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    Log.d("getRoom", "$roomList")
+                    RoomRecyclerView.adapter = RecyclerAdapter(roomList)
+
                     // 커스텀 마커 이벤트 구간 마커 이름과 좌표 입력
-                    makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
+//                    makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
 
 
                     Log.d("getRoom", r_result.result[0].roomName)
@@ -142,7 +164,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
 
 //        // 커스텀 마커 이벤트 구간 마커 이름과 좌표 입력
 //        makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
-
     }
 
     override fun onPause() {
@@ -227,7 +248,7 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
                     // 다시 묻지 않음 클릭 (앱 정보 화면으로 이동)
                     val builder = AlertDialog.Builder(mainActivity)
                     builder.setMessage("현재 위치를 확인하시려면 설정에서 위치 권한을 허용해주세요.")
-                    builder.setPositiveButton("설정으로 이동") { dialog, which ->
+                    builder.setPositiveButton("설정으로 이동") { _, _ ->
 
                         val intent = Intent().apply {
                             action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS

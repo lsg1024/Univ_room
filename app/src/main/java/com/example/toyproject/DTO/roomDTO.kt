@@ -9,17 +9,23 @@ data class roomDTO(
 
 data class room_result(
     @SerializedName("roomName")
-    val roomName : String,
+    var roomName : String,
 
     @SerializedName("location")
-    val location : String,
+    var location : String,
 
     @SerializedName("price1")
-    val price1 : Int,
+    var price1 : Int,
 
     @SerializedName("price2")
-    val price2: Int,
+    var price2: Int,
 
     @SerializedName("deposit")
-    val deposit: Int
+    var deposit: Int,
+
+    @SerializedName("latitude")
+    var latitude: Float,
+
+    @SerializedName("longitude")
+    var longitude: Float
 )
