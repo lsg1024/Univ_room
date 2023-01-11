@@ -11,16 +11,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.EditorInfo
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,9 +46,7 @@ import retrofit2.Response
 class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     private val call by lazy { Retrofit_API.getInstance() }
-
     private var _binding: FragmentMapBinding? = null
-
     private val LOG_TAG = "EventsDemoActivity"
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
 
@@ -72,6 +72,12 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     private var marker_price : Int? = null
     lateinit var behavior : BottomSheetBehavior<View>
     lateinit var RoomRecyclerView : RecyclerView
+    private var search_edit : EditText? = null
+    private var search : String? = null
+    private var spinner : Spinner? = null
+
+    var dataArr = arrayOf("전체보기","최고가순", "최저가순", "랭킹순", "조회수순")
+    var sp_hash = HashMap<String, Any>()
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
@@ -91,6 +97,12 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         u_location = binding.location
         behavior = BottomSheetBehavior.from(binding.bottomLayout)
         RoomRecyclerView = binding.recyclerView
+        RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        search_edit = binding.searchEdit
+        val adapter1 = ArrayAdapter(mainActivity, R.layout.item_spinner, dataArr)
+        spinner = binding.spinner
+        spinner!!.adapter = adapter1
 
         return root
     }
@@ -109,6 +121,7 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
 
         })
 
+        // 처음 로딩을 위한 창
         call!!.getRoom().enqueue(object : Callback<roomDTO> {
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
@@ -121,7 +134,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
                     }
 
                     val roomList = r_result.result
-                    RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     Log.d("getRoom", "$roomList")
                     RoomRecyclerView.adapter = RecyclerAdapter(roomList, mapView!!, marker!!, context!!)
 
@@ -139,7 +151,59 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
 
         })
 
+        // 검색 이벤트
+        search_edit!!.setOnEditorActionListener { textView, i, keyEvent ->
+            var handled = false
+            if (i == EditorInfo.IME_ACTION_SEARCH) {
+                search = search_edit!!.text.toString()
+                Toast.makeText(context, search, Toast.LENGTH_SHORT).show()
+                call!!.getSearch(search).enqueue(object : Callback<roomDTO>{
+                    override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
 
+                        if (response.isSuccessful) {
+                            val search_result = response.body()
+                            RoomRecyclerView.adapter = RecyclerAdapter(RoomList = search_result!!.result, mapView!!, marker!!, context!!)
+                        }
+
+                        handled = true
+                    }
+
+                    override fun onFailure(call: Call<roomDTO>, t: Throwable) {
+                        Toast.makeText(context, "검색결과를 찾지 못했습니다", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            }
+            handled
+        }
+
+        // spinner 이벤트
+        spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                val router = arrayOf("","asc", "desc", "rank", "hits")
+                call?.getRoom_spinner(router[p2])!!.enqueue(object : Callback<roomDTO>{
+                    override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
+                        if(response.isSuccessful){
+                            val spinner_result = response.body()
+
+                            RoomRecyclerView.adapter = RecyclerAdapter(RoomList = spinner_result!!.result, mapView!!, marker!!, context!!)
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<roomDTO>, t: Throwable) {
+                        Toast.makeText(context, "오류가 발생하였습니다", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
 
         mapView = MapView(context)
         // 학교 좌표에서 시작
@@ -148,8 +212,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         mapViewContainer.addView(mapView)
         mapView?.setMapViewEventListener(this)
         mapView?.setPOIItemEventListener(this)
-
-//        mapView!!.setCalloutBalloonAdapter(lCustomBalloonAdapter(layoutInflater))
 
         u_location!!.setOnClickListener {
 
@@ -160,11 +222,7 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
                 // GPS가 꺼져있을 경우
                 Toast.makeText(context, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
             }
-
         }
-
-//        // 커스텀 마커 이벤트 구간 마커 이름과 좌표 입력
-//        makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
     }
 
     override fun onPause() {
@@ -176,45 +234,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         super.onDestroyView()
         _binding = null
     }
-
-//    fun makerEvent(itemName : String, marker_point : MapPoint, tag_num : Int){
-//
-//        mapView!!.setCalloutBalloonAdapter(lCustomBalloonAdapter(layoutInflater))
-//        val pin = R.drawable.baseline_place_black_36
-//
-//        marker!!.itemName = itemName
-//        marker!!.mapPoint = marker_point
-//        marker!!.tag = tag_num
-//        marker!!.markerType = CustomImage
-//        marker!!.customImageResourceId = pin
-//        marker!!.isCustomImageAutoscale = true
-//        marker!!.setCustomImageAnchor(0.5f, 1.0f)
-//        mapView!!.addPOIItem(marker)
-//
-//    }
-
-//    inner class lCustomBalloonAdapter(inflater: LayoutInflater) : CalloutBalloonAdapter {
-//
-//        @SuppressLint("InflateParams")
-//        val lCalloutBalloon : View = inflater.inflate(R.layout.customballoon, null)
-//        val name : TextView = lCalloutBalloon.findViewById(R.id.room_name)
-//        val address : TextView = lCalloutBalloon.findViewById(R.id.address)
-//        val price : TextView = lCalloutBalloon.findViewById(R.id.price1)
-//
-//        override fun getCalloutBalloon(p0: MapPOIItem?): View {
-//
-//            name.text = marker_name
-//            address.text = marker_add
-//            price.text = marker_price.toString()
-//            return lCalloutBalloon
-//        }
-//
-//        override fun getPressedCalloutBalloon(p0: MapPOIItem?): View {
-//            // 마커 클릭 후 적혀 있는 내용을 클릭했을 때 나오는 이밴트이므로 클릭했을 때 상세 정보 페이지
-//            return lCalloutBalloon
-//        }
-//
-//    }
 
     // GPS가 켜져있는지 확인
     private fun checkLocationService(): Boolean {
@@ -289,137 +308,44 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     }
 
     override fun onMapViewInitialized(mapView: MapView) {
-        // MapView had loaded. Now, MapView APIs could be called safely.
-//        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(33.41, 126.52), 9, true)
-//        Log.i(LOG_TAG, "onMapViewInitialized")
     }
 
     override fun onMapViewCenterPointMoved(mapView: MapView, mapCenterPoint: MapPoint) {
-//        val mapPointGeo = mapCenterPoint.mapPointGeoCoord
-//        mCameraTextView!!.text =
-//            "camera position{target=" + String.format("lat/lng: (%f,%f), zoomLevel=%d",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapView.zoomLevel)
-//        Log.i(LOG_TAG,
-//            String.format("MapView onMapViewCenterPointMoved (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude))
     }
 
     override fun onMapViewZoomLevelChanged(mapView: MapView, zoomLevel: Int) {
-//        val mapPointGeo = mapView.mapCenterPoint.mapPointGeoCoord
-//        mCameraTextView!!.text =
-//            "camera position{target=" + String.format("lat/lng: (%f,%f), zoomLevel=%d",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapView.zoomLevel)
-//        Log.i(LOG_TAG, String.format("MapView onMapViewZoomLevelChanged (%d)", zoomLevel))
     }
 
     override fun onMapViewSingleTapped(mapView: MapView, mapPoint: MapPoint) {
-        val mapPointGeo = mapPoint.mapPointGeoCoord
-        val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-//        maptext!!.text =
-//            "single tapped, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapPointScreenLocation.x,
-//                mapPointScreenLocation.y)
-//        Log.i(LOG_TAG,
-//            String.format("MapView onMapViewSingleTapped (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude))
     }
 
     override fun onMapViewDoubleTapped(mapView: MapView, mapPoint: MapPoint) {
-//        val mapPointGeo = mapPoint.mapPointGeoCoord
-//        val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-//        maptext!!.text =
-//            "double tapped, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapPointScreenLocation.x,
-//                mapPointScreenLocation.y)
-//        Log.i(LOG_TAG,
-//            String.format(String.format("MapView onMapViewDoubleTapped (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude)))
     }
-
     override fun onMapViewLongPressed(mapView: MapView, mapPoint: MapPoint) {
-//        val mapPointGeo = mapPoint.mapPointGeoCoord
-//        val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-//        maptext!!.text =
-//            "long pressed, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapPointScreenLocation.x,
-//                mapPointScreenLocation.y)
-//        Log.i(LOG_TAG,
-//            String.format(String.format("MapView onMapViewLongPressed (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude)))
     }
 
     override fun onMapViewDragStarted(mapView: MapView, mapPoint: MapPoint) {
-//        val mapPointGeo = mapPoint.mapPointGeoCoord
-//        val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-//        mDragTextView!!.text =
-//            "drag started, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapPointScreenLocation.x,
-//                mapPointScreenLocation.y)
-//        Log.i(LOG_TAG,
-//            String.format("MapView onMapViewDragStarted (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude))
     }
 
     override fun onMapViewDragEnded(mapView: MapView, mapPoint: MapPoint) {
-//        val mapPointGeo = mapPoint.mapPointGeoCoord
-//        val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-//        mDragTextView!!.text =
-//            "drag ended, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude,
-//                mapPointScreenLocation.x,
-//                mapPointScreenLocation.y)
-//        Log.i(LOG_TAG,
-//            String.format("MapView onMapViewDragEnded (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude))
     }
 
     override fun onMapViewMoveFinished(mapView: MapView, mapPoint: MapPoint) {
-//        val mapPointGeo = mapPoint.mapPointGeoCoord
-//        Toast.makeText(baseContext, "MapView move finished", Toast.LENGTH_SHORT).show()
-//        Log.i(LOG_TAG,
-//            String.format("MapView onMapViewMoveFinished (%f,%f)",
-//                mapPointGeo.latitude,
-//                mapPointGeo.longitude))
     }
-
     // 아이콘 (마커) 클릭시 호출되는 이밴트
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
-
-
     }
 
     @Deprecated("Deprecated in Java")
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-
     }
 
     // 아이콘 (마커) 클릭후 호출되는 이밴트
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?, ) {
-
     }
 
     // 아이콘 (마커) 움직이는 이밴트
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
-
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.CustomBalloonAdapter
@@ -47,11 +48,9 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
         }
 
         holder.ls_title.setOnClickListener {
-            mapView.setZoomLevel(1, false)
+            mapView.setZoomLevel(0, false)
             mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, RoomList))
-            Log.d("RecyclerAdapter", "setCalloutBalloonAdapter ${position}")
             makerEvent(RoomList[position].roomName, RoomList[position].latitude, RoomList[position].longitude, position)
-            Log.d("RecyclerAdapter", "${RoomList[position].roomName}")
         }
     }
 
@@ -67,15 +66,14 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
 
     fun makerEvent(itemName: String, latitude: Double, longitude: Double, position: Int) {
 
-        val pin = R.drawable.baseline_place_black_36
-
         mapView.removeAllPOIItems()
         Log.d("makerEvent", "${position}")
         marker.itemName = itemName
         marker.mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true)
         marker.markerType = MapPOIItem.MarkerType.CustomImage
-        marker.customImageResourceId = pin
+        marker.customImageResourceId = R.drawable.vec2
+        marker.isShowCalloutBalloonOnTouch = false
         marker.isCustomImageAutoscale = true
         marker.setCustomImageAnchor(0.5f, 1.0f)
         mapView.addPOIItem(marker)
