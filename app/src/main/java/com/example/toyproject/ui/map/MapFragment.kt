@@ -87,7 +87,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         val root: View = binding.root
 
         mapViewContainer = binding.mapView
-        maptext = binding.textMap
         marker = MapPOIItem()
         u_location = binding.location
         behavior = BottomSheetBehavior.from(binding.bottomLayout)
@@ -124,7 +123,7 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
                     val roomList = r_result.result
                     RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                     Log.d("getRoom", "$roomList")
-                    RoomRecyclerView.adapter = RecyclerAdapter(roomList)
+                    RoomRecyclerView.adapter = RecyclerAdapter(roomList, mapView!!, marker!!, context!!)
 
                     // 커스텀 마커 이벤트 구간 마커 이름과 좌표 입력
 //                    makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
@@ -149,6 +148,8 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         mapViewContainer.addView(mapView)
         mapView?.setMapViewEventListener(this)
         mapView?.setPOIItemEventListener(this)
+
+//        mapView!!.setCalloutBalloonAdapter(lCustomBalloonAdapter(layoutInflater))
 
         u_location!!.setOnClickListener {
 
@@ -176,45 +177,44 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         _binding = null
     }
 
-    fun makerEvent(itemName : String, marker_point : MapPoint, tag_num : Int){
+//    fun makerEvent(itemName : String, marker_point : MapPoint, tag_num : Int){
+//
+//        mapView!!.setCalloutBalloonAdapter(lCustomBalloonAdapter(layoutInflater))
+//        val pin = R.drawable.baseline_place_black_36
+//
+//        marker!!.itemName = itemName
+//        marker!!.mapPoint = marker_point
+//        marker!!.tag = tag_num
+//        marker!!.markerType = CustomImage
+//        marker!!.customImageResourceId = pin
+//        marker!!.isCustomImageAutoscale = true
+//        marker!!.setCustomImageAnchor(0.5f, 1.0f)
+//        mapView!!.addPOIItem(marker)
+//
+//    }
 
-        mapView!!.setCalloutBalloonAdapter(lCustomBalloonAdapter(layoutInflater))
-        val pin = R.drawable.baseline_place_black_36
-
-        marker!!.itemName = itemName
-        marker!!.mapPoint = marker_point
-        marker!!.tag = tag_num
-        marker!!.markerType = CustomImage
-        marker!!.customImageResourceId = pin
-        marker!!.isCustomImageAutoscale = true
-        marker!!.setCustomImageAnchor(0.5f, 1.0f)
-        mapView!!.addPOIItem(marker)
-
-    }
-
-    inner class lCustomBalloonAdapter(inflater: LayoutInflater) : CalloutBalloonAdapter {
-
-        @SuppressLint("InflateParams")
-        val lCalloutBalloon : View = inflater.inflate(R.layout.customballoon, null)
-        val name : TextView = lCalloutBalloon.findViewById(R.id.room_name)
-        val address : TextView = lCalloutBalloon.findViewById(R.id.address)
-        val price : TextView = lCalloutBalloon.findViewById(R.id.price1)
-
-        override fun getCalloutBalloon(p0: MapPOIItem?): View {
-
-            name.text = marker_name
-            address.text = marker_add
-            price.text = marker_price.toString()
-            return lCalloutBalloon
-        }
-
-        override fun getPressedCalloutBalloon(p0: MapPOIItem?): View {
-
-            // 마커 클릭 후 적혀 있는 내용을 클릭했을 때 나오는 이밴트이므로 클릭했을 때 상세 정보 페이지
-            return lCalloutBalloon
-        }
-
-    }
+//    inner class lCustomBalloonAdapter(inflater: LayoutInflater) : CalloutBalloonAdapter {
+//
+//        @SuppressLint("InflateParams")
+//        val lCalloutBalloon : View = inflater.inflate(R.layout.customballoon, null)
+//        val name : TextView = lCalloutBalloon.findViewById(R.id.room_name)
+//        val address : TextView = lCalloutBalloon.findViewById(R.id.address)
+//        val price : TextView = lCalloutBalloon.findViewById(R.id.price1)
+//
+//        override fun getCalloutBalloon(p0: MapPOIItem?): View {
+//
+//            name.text = marker_name
+//            address.text = marker_add
+//            price.text = marker_price.toString()
+//            return lCalloutBalloon
+//        }
+//
+//        override fun getPressedCalloutBalloon(p0: MapPOIItem?): View {
+//            // 마커 클릭 후 적혀 있는 내용을 클릭했을 때 나오는 이밴트이므로 클릭했을 때 상세 정보 페이지
+//            return lCalloutBalloon
+//        }
+//
+//    }
 
     // GPS가 켜져있는지 확인
     private fun checkLocationService(): Boolean {
@@ -320,16 +320,16 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     override fun onMapViewSingleTapped(mapView: MapView, mapPoint: MapPoint) {
         val mapPointGeo = mapPoint.mapPointGeoCoord
         val mapPointScreenLocation = mapPoint.mapPointScreenLocation
-        maptext!!.text =
-            "single tapped, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
-                mapPointGeo.latitude,
-                mapPointGeo.longitude,
-                mapPointScreenLocation.x,
-                mapPointScreenLocation.y)
-        Log.i(LOG_TAG,
-            String.format("MapView onMapViewSingleTapped (%f,%f)",
-                mapPointGeo.latitude,
-                mapPointGeo.longitude))
+//        maptext!!.text =
+//            "single tapped, point=" + String.format("lat/lng: (%f,%f) x/y: (%f,%f)",
+//                mapPointGeo.latitude,
+//                mapPointGeo.longitude,
+//                mapPointScreenLocation.x,
+//                mapPointScreenLocation.y)
+//        Log.i(LOG_TAG,
+//            String.format("MapView onMapViewSingleTapped (%f,%f)",
+//                mapPointGeo.latitude,
+//                mapPointGeo.longitude))
     }
 
     override fun onMapViewDoubleTapped(mapView: MapView, mapPoint: MapPoint) {

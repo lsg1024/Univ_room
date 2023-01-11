@@ -24,8 +24,8 @@ data class room_result(
     var deposit: Int,
 
     @SerializedName("latitude")
-    var latitude: Float,
+    var latitude: Double,
 
     @SerializedName("longitude")
-    var longitude: Float
+    var longitude: Double
 )
