@@ -9,9 +9,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.example.toyproject.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import java.security.MessageDigest
 
 
@@ -25,15 +28,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        val tabLayout: TabLayout = binding.navView
+        val viewPager2 : ViewPager2 = binding.viewPager2
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_map, R.id.navigation_userpage))
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        viewPager2.apply {
+            adapter = FragmentAdapter(context as MainActivity)
+            isUserInputEnabled = false
+        }
+
+        TabLayoutMediator(tabLayout, viewPager2){tab, position ->
+
+            when(position) {
+                0 -> {
+                    tab.text = "지도"
+                    tab.setIcon(R.drawable.baseline_map_24)
+                }
+                1 -> {
+                    tab.text = "사용자"
+                    tab.setIcon(R.drawable.baseline_account_circle_24)
+                }
+            }
+        }.attach()
+
     }
+
 
     override fun onBackPressed() {
         if (System.currentTimeMillis() - wait >= 2000) {

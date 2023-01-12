@@ -30,6 +30,7 @@ class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(bindin
     val ls_add = binding.listAdd
     val ls_price1 = binding.listPrice1
     val ls_price2 = binding.listPrice2
+    val ls_img = binding.appCompatImageView
 }
 
 class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapView, var marker: MapPOIItem, context: Context) : RecyclerView.Adapter<RoomViewHolder>() {
@@ -52,6 +53,11 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
             mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, RoomList))
             makerEvent(RoomList[position].roomName, RoomList[position].latitude, RoomList[position].longitude, position)
         }
+
+        holder.ls_add.setOnClickListener {
+
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
