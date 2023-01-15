@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        val intent = Intent(this@LoginActivity, PickActivity::class.java)
 
         l_btn?.setOnClickListener {
 

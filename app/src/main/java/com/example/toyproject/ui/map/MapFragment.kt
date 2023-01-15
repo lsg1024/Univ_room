@@ -30,6 +30,7 @@ import com.example.toyproject.DTO.roomDTO
 import com.example.toyproject.DTO.room_result
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
+import com.example.toyproject.TopScrollRecyclerAdapter
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -72,11 +73,12 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     private var marker_price : Int? = null
     lateinit var behavior : BottomSheetBehavior<View>
     lateinit var RoomRecyclerView : RecyclerView
+    lateinit var TopRecyclerView : RecyclerView
     private var search_edit : EditText? = null
     private var search : String? = null
     private var spinner : Spinner? = null
 
-    var dataArr = arrayOf("전체보기","최고가순", "최저가순", "랭킹순", "조회수순")
+    var dataArr = arrayOf("최고가순", "최저가순", "랭킹순", "조회수순")
     var sp_hash = HashMap<String, Any>()
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -92,17 +94,26 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // 맵뷰 컨테이너
         mapViewContainer = binding.mapView
+        // 마커 선언
         marker = MapPOIItem()
+        // 현재 위치 버튼
         u_location = binding.location
+        // 바텀시트
         behavior = BottomSheetBehavior.from(binding.bottomLayout)
+        // 바텀시트 리사이클러 뷰
         RoomRecyclerView = binding.recyclerView
         RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        // 상단 스크롤 버튼 리사이클러 뷰
+        TopRecyclerView = binding.scrollRecyclerView
+        TopRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         search_edit = binding.searchEdit
         val adapter1 = ArrayAdapter(mainActivity, R.layout.item_spinner, dataArr)
         spinner = binding.spinner
         spinner!!.adapter = adapter1
+
 
         return root
     }
@@ -110,6 +121,7 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     override fun onResume() {
         super.onResume()
 
+        // 바텀 시트 이벤트 함수
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 Log.d("statechanged", "statechanged")
@@ -121,8 +133,8 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
 
         })
 
-        // 처음 로딩을 위한 창
-        call!!.getRoom().enqueue(object : Callback<roomDTO> {
+        // 룸 리사이클러 처음 로딩을 위한 창
+        call!!.getRoom("").enqueue(object : Callback<roomDTO> {
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
                     val r_result : roomDTO? = response.body()
@@ -151,12 +163,11 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
 
         })
 
-        // 검색 이벤트
-        search_edit!!.setOnEditorActionListener { textView, i, keyEvent ->
+        // 룸 리상이클러 검색 이벤트
+        search_edit!!.setOnEditorActionListener { _, i, _ ->
             var handled = false
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 search = search_edit!!.text.toString()
-                Toast.makeText(context, search, Toast.LENGTH_SHORT).show()
                 call!!.getSearch(search).enqueue(object : Callback<roomDTO>{
                     override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
 
@@ -177,17 +188,22 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
             handled
         }
 
+
         // spinner 이벤트
         spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-                val router = arrayOf("","asc", "desc", "rank", "hits")
-                call?.getRoom_spinner(router[p2])!!.enqueue(object : Callback<roomDTO>{
+                val router = arrayOf("desc", "asc", "rank", "hits")
+                // 버튼
+                call?.getRoom(router[p2])!!.enqueue(object : Callback<roomDTO>{
                     override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                         if(response.isSuccessful){
                             val spinner_result = response.body()
 
                             RoomRecyclerView.adapter = RecyclerAdapter(RoomList = spinner_result!!.result, mapView!!, marker!!, context!!)
+
+                            // 상단 스크롤 버튼 리사이클러 뷰
+                            TopRecyclerView.adapter = TopScrollRecyclerAdapter(mainActivity, p2)
 
                         }
                     }

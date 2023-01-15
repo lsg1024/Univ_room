@@ -48,16 +48,17 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
             ls_price2.text = RoomList[position].price2.toString()
         }
 
+        // 클릭시 해당 값을 위치로 지도 이동 후 마커 출력
         holder.ls_title.setOnClickListener {
             mapView.setZoomLevel(0, false)
             mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, RoomList))
             makerEvent(RoomList[position].roomName, RoomList[position].latitude, RoomList[position].longitude, position)
         }
 
+        // 클릭시 전체 화면으로 전환되어야 된다
         holder.ls_add.setOnClickListener {
 
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
