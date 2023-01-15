@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".PickActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/main_street"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="정문"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/middle_street"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="중문"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/main_street"
+                app:layout_constraintStart_toStartOf="@+id/main_street"
+                app:layout_constraintTop_toBottomOf="@+id/main_street" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/back_door"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="후문"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/middle_street"
+                app:layout_constraintStart_toStartOf="@+id/middle_street"
+                app:layout_constraintTop_toBottomOf="@+id/middle_street" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/town_hall"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="마을회관"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/back_door"
+                app:layout_constraintStart_toStartOf="@+id/back_door"
+                app:layout_constraintTop_toBottomOf="@+id/back_door" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/layout_2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/food"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="농가마트"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/domak"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="동막골 뒤"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/food"
+                app:layout_constraintStart_toStartOf="@+id/food"
+                app:layout_constraintTop_toBottomOf="@+id/food" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bus"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="셔틀 뒤"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/domak"
+                app:layout_constraintStart_toStartOf="@+id/domak"
+                app:layout_constraintTop_toBottomOf="@+id/domak" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dormitory"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="기숙사 근처"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/noside_white_edge"
+                app:layout_constraintEnd_toEndOf="@+id/bus"
+                app:layout_constraintStart_toStartOf="@+id/bus"
+                app:layout_constraintTop_toBottomOf="@+id/bus" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/total"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text="전체 보기"
+            android:background="@drawable/noside_white_edge"
+            android:layout_marginTop="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

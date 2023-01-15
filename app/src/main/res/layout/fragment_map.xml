@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.map.MapFragment"
-    android:background="#F2594B"
     android:animateLayoutChanges="true">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F2594B">
 
 
         <EditText
@@ -43,6 +43,16 @@
 
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scroll_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapView" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/location"
             android:layout_width="35dp"
@@ -67,6 +77,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_anchor="@+id/constraintLayout"
@@ -109,7 +120,7 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="100px"
+                    android:layout_width="120px"
                     android:layout_height="10px"
                     android:background="@drawable/noside_white_edge"
                     app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_layout"
