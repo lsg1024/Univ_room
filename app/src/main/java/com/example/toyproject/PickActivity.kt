@@ -75,7 +75,7 @@ class PickActivity : AppCompatActivity() {
         }
 
         dormitory.setOnClickListener {
-            intent.putExtra("dormitory", "6")
+            bundle.putString("bundle_data", "6")
             intent.putExtra("mainIntent", bundle)
             startActivity(intent)
             finish()

@@ -8,6 +8,10 @@ data class roomDTO(
     )
 
 data class room_result(
+
+    @SerializedName("room_pk")
+    var room_pk : Int,
+
     @SerializedName("roomName")
     var roomName : String,
 

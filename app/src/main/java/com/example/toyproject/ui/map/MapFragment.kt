@@ -122,7 +122,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     override fun onResume() {
         super.onResume()
 
-
         // 상단 스크롤 버튼 리사이클러 뷰
         TopRecyclerView.adapter = TopScrollRecyclerAdapter()
 
