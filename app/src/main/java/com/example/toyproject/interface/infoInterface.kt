@@ -16,15 +16,14 @@ interface infoInterface {
         @Body login_data: login_data,
     ) : Call<loginDTO>
 
-//    @GET("room/All")
-//    fun getRoom(): Call<roomDTO>
 
-    @GET("room/All")
-    fun getRoom(@Query("sort") sort : String?): Call<roomDTO>
+    @GET("room")
+    fun getRoom(@Query("sort") sort : String, @Query("category") category: String): Call<roomDTO>
+
+    @GET("room/noAll")
+    fun getPlace(@Query("sort") sort : String?): Call<roomDTO>
 
     @GET("room/search")
     fun getSearch(@Query("rN") rN : String?) : Call<roomDTO>
 
-    @GET("room/noAll")
-    fun getPlace(@Query("sort") sort : String?): Call<roomDTO>
 }

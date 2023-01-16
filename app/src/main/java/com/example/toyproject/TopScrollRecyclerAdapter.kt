@@ -16,13 +16,11 @@ class TopScrollHolder(binding: ScrollItemBinding) : RecyclerView.ViewHolder(bind
     val btn_name : TextView = binding.scrollBtn
 }
 
-class TopScrollRecyclerAdapter(mainActivity: MainActivity, p2 : Int) : RecyclerView.Adapter<TopScrollHolder>(){
+class TopScrollRecyclerAdapter() : RecyclerView.Adapter<TopScrollHolder>(){
 
     private val call by lazy { Retrofit_API.getInstance() }
 
-    private val N_list = arrayOf("전체보기","정문", "중문", "후문", "서틀뒤", "동막골뒤", "농가마트 앞", "기숙사 근처", "마을회관")
-
-    private val spinner_position = p2
+    private val N_list = arrayOf("전체보기" ,"정문", "중문", "후문", "서틀뒤", "농가마트", "기숙사 근처")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopScrollHolder {
         val binding = ScrollItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

@@ -18,9 +18,11 @@
         <entry key="app/src/main/res/drawable/no_line_edge_gray.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/noside_white_edge.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/only_withe_edge.xml" value="0.3145" />
+        <entry key="app/src/main/res/drawable/pick_edge.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/red.xml" value="0.3145" />
         <entry key="app/src/main/res/drawable/red_edge.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/red_place.xml" value="0.2095" />
+        <entry key="app/src/main/res/drawable/scroll_edge.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/search-24px.xml" value="0.282" />
         <entry key="app/src/main/res/drawable/search_24.xml" value="0.282" />
         <entry key="app/src/main/res/drawable/top_white_edge.xml" value="0.32" />

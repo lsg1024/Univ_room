@@ -1,38 +1,35 @@
 package com.example.toyproject
 
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.toyproject.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.toyproject.ui.map.MapFragment
+import com.example.toyproject.ui.userpage.UserPageFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.security.MessageDigest
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var _binding: ActivityMainBinding
+    private val binding get() = _binding
     var wait:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val tabLayout: TabLayout = binding.navView
         val viewPager2 : ViewPager2 = binding.viewPager2
 
         viewPager2.apply {
-            adapter = FragmentAdapter(context as MainActivity)
+            adapter = FragmentAdapter(context as MainActivity, )
             isUserInputEnabled = false
         }
 
@@ -62,5 +59,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private inner class FragmentAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = 2
+
+        override fun createFragment(position: Int): Fragment {
+            return when (position) {
+                0 -> {
+                    val mapFragment = MapFragment()
+                    when {
+                        intent.hasExtra("mainIntent") -> {
+                            val bundle = intent.getBundleExtra("mainIntent")
+                            mapFragment.arguments = bundle
+                        }
+                    }
+                    mapFragment
+                }else -> {
+                    UserPageFragment()
+                }
+
+            }
+        }
+    }
 
 }
+

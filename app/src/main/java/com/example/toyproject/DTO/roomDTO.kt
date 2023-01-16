@@ -27,5 +27,11 @@ data class room_result(
     var latitude: Double,
 
     @SerializedName("longitude")
-    var longitude: Double
+    var longitude: Double,
+
+    @SerializedName("category")
+    var category: Int,
+
+    @SerializedName("image")
+    var image: String
 )

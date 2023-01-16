@@ -30,7 +30,7 @@
                 android:layout_height="40dp"
                 android:text="정문"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
+                android:background="@drawable/pick_edge"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,8 +39,8 @@
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:text="중문"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/pick_edge"
                 app:layout_constraintEnd_toEndOf="@+id/main_street"
                 app:layout_constraintStart_toStartOf="@+id/main_street"
                 app:layout_constraintTop_toBottomOf="@+id/main_street" />
@@ -50,22 +50,11 @@
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:text="후문"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/pick_edge"
                 app:layout_constraintEnd_toEndOf="@+id/middle_street"
                 app:layout_constraintStart_toStartOf="@+id/middle_street"
                 app:layout_constraintTop_toBottomOf="@+id/middle_street" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/town_hall"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="마을회관"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
-                app:layout_constraintEnd_toEndOf="@+id/back_door"
-                app:layout_constraintStart_toStartOf="@+id/back_door"
-                app:layout_constraintTop_toBottomOf="@+id/back_door" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -83,39 +72,28 @@
                 android:layout_height="40dp"
                 android:text="농가마트"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
+                android:background="@drawable/pick_edge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/domak"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="동막골 뒤"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
-                app:layout_constraintEnd_toEndOf="@+id/food"
-                app:layout_constraintStart_toStartOf="@+id/food"
-                app:layout_constraintTop_toBottomOf="@+id/food" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bus"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:text="셔틀 뒤"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
-                app:layout_constraintEnd_toEndOf="@+id/domak"
-                app:layout_constraintStart_toStartOf="@+id/domak"
-                app:layout_constraintTop_toBottomOf="@+id/domak" />
+                android:layout_marginTop="20dp"
+                android:background="@drawable/pick_edge"
+                app:layout_constraintEnd_toEndOf="@+id/food"
+                app:layout_constraintStart_toStartOf="@+id/food"
+                app:layout_constraintTop_toBottomOf="@+id/food" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/dormitory"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
                 android:text="기숙사 근처"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/noside_white_edge"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/pick_edge"
                 app:layout_constraintEnd_toEndOf="@+id/bus"
                 app:layout_constraintStart_toStartOf="@+id/bus"
                 app:layout_constraintTop_toBottomOf="@+id/bus" />
@@ -127,7 +105,7 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:text="전체 보기"
-            android:background="@drawable/noside_white_edge"
+            android:background="@drawable/pick_edge"
             android:layout_marginTop="200dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
