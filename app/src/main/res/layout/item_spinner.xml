@@ -5,7 +5,6 @@
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
-    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
     android:textColor="@color/black"
     android:textStyle="normal"
     android:layout_width="match_parent"

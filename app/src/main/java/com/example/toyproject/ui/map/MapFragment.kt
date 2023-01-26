@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.net.Uri
@@ -26,7 +25,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.*
+import com.example.toyproject.DTO.loginDTO
+import com.example.toyproject.DTO.login_result
 import com.example.toyproject.DTO.roomDTO
+import com.example.toyproject.DTO.room_result
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -38,7 +40,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEventListener {
+open class MapFragment : Fragment(){
 
     private val call by lazy { Retrofit_API.getInstance() }
     private var _binding: FragmentMapBinding? = null
@@ -59,23 +61,22 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     lateinit var mainActivity: MainActivity
     private var mapView: MapView? = null
     lateinit var mapViewContainer: ViewGroup
-    private var maptext : TextView? = null
     private var u_location : ConstraintLayout? = null
     private var marker : MapPOIItem? = null
-    private var marker_name : String? = null
-    private var marker_add : String? = null
-    private var marker_price : Int? = null
     lateinit var behavior : BottomSheetBehavior<View>
     lateinit var RoomRecyclerView : RecyclerView
     lateinit var TopRecyclerView : RecyclerView
     private var search_edit : EditText? = null
     private var search : String? = null
     private var spinner : Spinner? = null
+    // spinner 작동이 처음 들어왔을 때는 안되기 때문에 넣어줌
+    private var spinnerData : String = "desc"
 
     var dataArr = arrayOf("최고가순", "최저가순", "랭킹순", "조회수순")
-    var sp_hash = HashMap<String, Any>()
-
+    var topData = arrayOf("전체보기" ,"정문", "중문", "후문", "서틀뒤", "농가마트", "기숙사 근처")
     var category : String? = null
+    var t_position : Int? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,6 +116,8 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         val adapter1 = ArrayAdapter(mainActivity, R.layout.item_spinner, dataArr)
         spinner = binding.spinner
         spinner!!.adapter = adapter1
+        // spinner setselection 옵션을 넣지 않으면 자동으로 true 값이 적용되어 로직이 작동해버린다
+        spinner!!.setSelection(0, false)
 
         return root
     }
@@ -122,109 +125,111 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
     override fun onResume() {
         super.onResume()
 
-        // 상단 스크롤 버튼 리사이클러 뷰
-        TopRecyclerView.adapter = TopScrollRecyclerAdapter()
-
         // 바텀 시트 이벤트 함수
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                Log.d("statechanged", "statechanged")
+                Log.d("statechanged", "$newState" + "state")
             }
 
+            //
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                Log.d("statechanged", "onslide")
+                Log.d("statechanged", "$slideOffset")
+
             }
 
         })
 
-        // 룸 리사이클러 처음 로딩을 위한 창
-        call!!.getRoom("desc", category!!).enqueue(object : Callback<roomDTO> {
-            override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
-                if (response.isSuccessful){
-                    val r_result : roomDTO? = response.body()
-
-                    Toast.makeText(context, category, Toast.LENGTH_SHORT).show()
-
-                    val roomList = r_result!!.result
-                    Log.d("getRoom", "$roomList")
-                    RoomRecyclerView.adapter = RecyclerAdapter(roomList, mapView!!, marker!!, context!!)
-
-                    // 커스텀 마커 이벤트 구간 마커 이름과 좌표 입력
-//                    makerEvent(itemName = marker_name!!, MapPoint.mapPointWithGeoCoord(36.739601,  127.075356), 1)
-
-
-                    Log.d("getRoom", r_result.result[0].roomName)
-                }
-            }
-
-            override fun onFailure(call: Call<roomDTO>, t: Throwable) {
-                Log.d("fail_getRoom", "${t.message}")
-            }
-
-        })
+        // 룸 리사이클러 최초 로딩 -> 시작 창에서 클릭 했을 때
+        retrofit("desc", category!!)
 
         // 룸 리상이클러 검색 이벤트
-//        search_edit!!.setOnEditorActionListener { _, i, _ ->
-//            var handled = false
-//            if (i == EditorInfo.IME_ACTION_SEARCH) {
-//                search = search_edit!!.text.toString()
-//                call!!.getSearch(search).enqueue(object : Callback<roomDTO>{
-//                    override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
-//
-//                        if (response.isSuccessful) {
-//                            val search_result = response.body()
-//                            RoomRecyclerView.adapter = RecyclerAdapter(RoomList = search_result!!.result, mapView!!, marker!!, context!!)
-//                        }
-//
-//                        handled = true
-//                    }
-//
-//                    override fun onFailure(call: Call<roomDTO>, t: Throwable) {
-//                        Toast.makeText(context, "검색결과를 찾지 못했습니다", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                })
-//            }
-//            handled
-//        }
+        search_edit!!.setOnEditorActionListener { _, i, _ ->
+            var handled = false
+            if (i == EditorInfo.IME_ACTION_SEARCH) {
+                search = search_edit!!.text.toString()
+                call!!.getSearch(search).enqueue(object : Callback<roomDTO>{
+                    override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
+
+                        if (response.isSuccessful) {
+                            val search_result = response.body()
+                            RoomRecyclerView.adapter = RecyclerAdapter(search_result!!.result, mapView!!, marker!!, context!!)
+                        }
+
+                        handled = true
+                    }
+
+                    override fun onFailure(call: Call<roomDTO>, t: Throwable) {
+                        Toast.makeText(context, "검색결과를 찾지 못했습니다", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            }
+            handled
+        }
+
+        val topAdapter = TopScrollRecyclerAdapter(topData, spinnerData, mainActivity, binding)
+        // 상단 스크롤 버튼 리사이클러 뷰
+        TopRecyclerView.adapter = topAdapter
+        topAdapter.setItemClickListener(object : TopScrollRecyclerAdapter.OnItemClickListener {
+            override fun onClick(v: View, position: Int) {
+
+                t_position = position
+                retrofit("desc", position.toString())
+            }
+        })
+
+
 
         // spinner 이벤트 -> 스피너 이벤트는 상단 카테고리 옵션 번호를 가져와야된다
-        // 문제점 스피너는 선택된 상태여서 항사 먼저 호출된다
-//        spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//
-//                val router = arrayOf("desc", "asc", "rank", "hits")
-//                // 버튼
-//                call?.getRoom(router[p2], "0")!!.enqueue(object : Callback<roomDTO>{
-//                    override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
-//                        if(response.isSuccessful){
-//                            val spinner_result = response.body()
-//
-//                            RoomRecyclerView.adapter = RecyclerAdapter(spinner_result!!.result, mapView!!, marker!!, context!!)
-//
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<roomDTO>, t: Throwable) {
-//                        Toast.makeText(context, "오류가 발생하였습니다", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                })
-//            }
-//
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//
-//            }
-//
-//        }
+        // 문제점 스피너는 선택된 상태여서 항사 먼저 호출된다 -> 해결
+        // 상단 버튼 클릭을 했을 때
+        spinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                val router = arrayOf("desc", "asc", "rank", "hits")
+
+                spinnerData = router[p2]
+
+                // 처음 pick창에서 선택을 한 뒤에 스피너를 선택하는 경우
+                if (t_position == null){
+                    retrofit(spinnerData, category.toString())
+                }
+                else {
+                    retrofit(spinnerData, t_position.toString())
+                }
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
 
         mapView = MapView(context)
         // 학교 좌표에서 시작
         mapView!!.setZoomLevel(1, false)
-        mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.739990, 127.074486), true)
+        if (category.toString().toInt() == 0){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.739990, 127.074486), true)
+        }
+        else if (category.toString().toInt() == 1){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.739529, 127.076988), true)
+        }
+        else if (category.toString().toInt() == 2){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.738205, 127.078972), true)
+        }
+        else if (category.toString().toInt() == 3){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.740482, 127.074730), true)
+        }
+        else if (category.toString().toInt() == 4){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.742554, 127.074226), true)
+        }
+        else if (category.toString().toInt() == 5){
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.740833, 127.072533), true)
+        }
+        else {
+            mapView!!.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(36.735134, 127.077866), true)
+        }
         mapViewContainer.addView(mapView)
-        mapView?.setMapViewEventListener(this)
-        mapView?.setPOIItemEventListener(this)
+//        mapView?.setMapViewEventListener(this)
+//        mapView?.setPOIItemEventListener(this)
 
         u_location!!.setOnClickListener {
 
@@ -237,7 +242,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
             }
         }
     }
-
     override fun onPause() {
         super.onPause()
         mapViewContainer.removeView(mapView)
@@ -253,7 +257,6 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         val locationManager = mainActivity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
-
     // 위치 권한 확인
     private fun permissionCheck() {
         val preference = mainActivity.getPreferences(MODE_PRIVATE)
@@ -320,54 +323,22 @@ class MapFragment : Fragment(), MapView.MapViewEventListener, MapView.POIItemEve
         }
     }
 
-    override fun onMapViewInitialized(mapView: MapView) {
-    }
+    fun retrofit(spinnerData : String, position : String){
+        call!!.getRoom(spinnerData, position).enqueue(object : Callback<roomDTO>{
+            override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
+                if (response.isSuccessful){
+                    val data = response.body()!!
 
-    override fun onMapViewCenterPointMoved(mapView: MapView, mapCenterPoint: MapPoint) {
-    }
+                    RoomRecyclerView.adapter = RecyclerAdapter(data.result, mapView!!, marker!!, context!!)
+                }
+            }
 
-    override fun onMapViewZoomLevelChanged(mapView: MapView, zoomLevel: Int) {
-    }
+            override fun onFailure(call: Call<roomDTO>, t: Throwable) {
+                Toast.makeText(context, "오류가 발생했습니다", Toast.LENGTH_SHORT).show()
+            }
 
-    // 지도 클릭했을 때 이벤트
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-//        val mapPointGeo = p1?.mapPointGeoCoord
-//        val mapPointScreenLocation = p1?.mapPointScreenLocation
-//        val textView : TextView = binding.mapClick
-//        textView.text = String.format("(%f, %f)", mapPointGeo?.latitude, mapPointGeo?.longitude)
-    }
+        })
 
-    override fun onMapViewDoubleTapped(mapView: MapView, mapPoint: MapPoint) {
-    }
-    override fun onMapViewLongPressed(mapView: MapView, mapPoint: MapPoint) {
-    }
-
-    override fun onMapViewDragStarted(mapView: MapView, mapPoint: MapPoint) {
-    }
-
-    override fun onMapViewDragEnded(mapView: MapView, mapPoint: MapPoint) {
-    }
-
-    override fun onMapViewMoveFinished(mapView: MapView, mapPoint: MapPoint) {
-    }
-    // 아이콘 (마커) 클릭시 호출되는 이밴트
-    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-    }
-
-    // 아이콘 (마커) 클릭후 호출되는 이밴트
-    override fun onCalloutBalloonOfPOIItemTouched(
-        p0: MapView?,
-        p1: MapPOIItem?,
-        p2: MapPOIItem.CalloutBalloonButtonType?,
-    ) {
-    }
-
-    // 아이콘 (마커) 움직이는 이밴트
-    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
     }
 
 }

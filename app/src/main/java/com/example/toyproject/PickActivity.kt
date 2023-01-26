@@ -27,6 +27,7 @@ class PickActivity : AppCompatActivity() {
         val dormitory : AppCompatButton = binding.dormitory
         val total : AppCompatButton = binding.total
 
+        // 여기 하고 있음
         val bundle = Bundle()
 
         val intent = Intent(this@PickActivity, MainActivity::class.java)
@@ -46,15 +47,15 @@ class PickActivity : AppCompatActivity() {
             finish()
         }
 
-        middle.setOnClickListener {
-            bundle.putString("bundle_data", "3")
+        bus.setOnClickListener {
+            bundle.putString("bundle_data", "2")
             intent.putExtra("mainIntent", bundle)
             startActivity(intent)
             finish()
         }
 
-        backDoor.setOnClickListener {
-            bundle.putString("bundle_data", "5")
+        middle.setOnClickListener {
+            bundle.putString("bundle_data", "3")
             intent.putExtra("mainIntent", bundle)
             startActivity(intent)
             finish()
@@ -67,8 +68,8 @@ class PickActivity : AppCompatActivity() {
             finish()
         }
 
-        bus.setOnClickListener {
-            bundle.putString("bundle_data", "2")
+        backDoor.setOnClickListener {
+            bundle.putString("bundle_data", "5")
             intent.putExtra("mainIntent", bundle)
             startActivity(intent)
             finish()

@@ -1,6 +1,7 @@
 package com.example.toyproject
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -67,8 +68,14 @@ class MainActivity : AppCompatActivity() {
                 0 -> {
                     val mapFragment = MapFragment()
                     when {
+
                         intent.hasExtra("mainIntent") -> {
                             val bundle = intent.getBundleExtra("mainIntent")
+                            mapFragment.arguments = bundle
+                        }
+
+                        intent.hasExtra("topIntent")-> {
+                            val bundle = intent.getBundleExtra("topIntent")
                             mapFragment.arguments = bundle
                         }
                     }
@@ -78,6 +85,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+        }
+    }
+
+    companion object{
+        private lateinit var binding: ActivityMainBinding
+
+        fun hideNavi(state: Boolean){
+            if (state) binding.navView.visibility = View.GONE else binding.navView.visibility = View.VISIBLE
         }
     }
 

@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/baseline_map_24.xml" value="0.2555" />
         <entry key="app/src/main/res/drawable/baseline_my_location_24.xml" value="0.3145" />
         <entry key="app/src/main/res/drawable/black_pin.xml" value="0.2545" />
+        <entry key="app/src/main/res/drawable/chat-20px.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/favorite-24px.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/favorite-48px.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/ic_baseline_place_24.xml" value="0.2555" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/drawable/noside_white_edge.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/only_withe_edge.xml" value="0.3145" />
         <entry key="app/src/main/res/drawable/pick_edge.xml" value="0.2735" />
+        <entry key="app/src/main/res/drawable/r_list_botton_edge.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/red.xml" value="0.3145" />
         <entry key="app/src/main/res/drawable/red_edge.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/red_place.xml" value="0.2095" />
@@ -35,11 +37,12 @@
         <entry key="app/src/main/res/layout/fragment_coment__frame.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.4838236859121654" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.24923248291015632" />
         <entry key="app/src/main/res/layout/fragment_pick.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_userpage.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/item_spinner.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/r_list.xml" value="0.45065765380859374" />
+        <entry key="app/src/main/res/layout/r_list_button_edge.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/r_list_item.xml" value="0.5242934120207681" />
         <entry key="app/src/main/res/layout/scroll_item.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.4036458333333333" />

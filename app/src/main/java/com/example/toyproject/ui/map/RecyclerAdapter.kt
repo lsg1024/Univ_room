@@ -19,6 +19,7 @@ import com.example.toyproject.DTO.room_result
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
 import com.example.toyproject.databinding.RListItemBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -26,11 +27,16 @@ import net.daum.mf.map.api.MapView
 
 class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+    val cardview = binding.cardView
     val ls_title = binding.listTitle
     val ls_add = binding.listAdd
     val ls_price1 = binding.listPrice1
     val ls_price2 = binding.listPrice2
     val ls_img = binding.appCompatImageView
+    val stateMove = binding.stateMove
+    val chat = binding.chat
+    val heart = binding.heart
+
 }
 
 class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapView, var marker: MapPOIItem, context: Context) : RecyclerView.Adapter<RoomViewHolder>() {
@@ -49,16 +55,19 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
         }
 
         // 클릭시 해당 값을 위치로 지도 이동 후 마커 출력
-        holder.ls_title.setOnClickListener {
+        holder.stateMove.setOnClickListener {
             mapView.setZoomLevel(0, false)
             mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, RoomList))
             makerEvent(RoomList[position].roomName, RoomList[position].latitude, RoomList[position].longitude, position)
         }
 
         // 클릭시 전체 화면으로 전환되어야 된다
-        holder.ls_add.setOnClickListener {
-
+        holder.cardview.setOnClickListener {
+            Log.d("cardView", "cardView${position}")
         }
+
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
@@ -70,6 +79,8 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
     override fun getItemCount(): Int {
         return RoomList.size
     }
+
+    inner class be
 
     fun makerEvent(itemName: String, latitude: Double, longitude: Double, position: Int) {
 
@@ -87,4 +98,6 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
         Log.d("makerEvent", "marker_event")
 
     }
+
+
 }

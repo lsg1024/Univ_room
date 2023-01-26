@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:background="#F2594B">
 
-
         <EditText
             android:id="@+id/search_edit"
             android:layout_width="350dp"
@@ -51,6 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_edit" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/location"
@@ -90,9 +90,9 @@
                 android:id="@+id/bottom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:behavior_expandedOffset="100dp"
+                app:behavior_expandedOffset="95dp"
                 app:behavior_fitToContents="false"
-                app:behavior_peekHeight="50dp"
+                app:behavior_peekHeight="40dp"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -121,7 +121,7 @@
                     android:id="@+id/view"
                     android:layout_width="120px"
                     android:layout_height="10px"
-                    android:background="@drawable/pick_edge"
+                    android:background="@drawable/noside_white_edge"
                     app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
