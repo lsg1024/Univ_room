@@ -3,56 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="400dp"
-    android:layout_height="240dp"
-    android:layout_gravity="center">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingBottom="20dp"
+    android:backgroundTint="#FAEEEE"
+    android:background="@drawable/detail_dialog">
 
     <TextView
         android:id="@+id/dec_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         android:text="신고 사유"
+        android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_margin="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/f_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="무분별한 욕설 및 비난"
+        android:gravity="center"
+        android:background="#00ff0000"
+        android:backgroundTint="#FAEEEE"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:textSize="15dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dec_title" />
+        app:layout_constraintTop_toBottomOf="@+id/dec_title"
+        android:theme="@style/AppThemeBtn"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/s_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15dp"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
+        android:background="#00ff0000"
+        android:backgroundTint="#FAEEEE"
+        android:gravity="center"
         android:textColor="@color/black"
         android:text="허위 / 낚시 / 상업적인 메세지 / 불건전한 메세지"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/f_text" />
+        app:layout_constraintTop_toBottomOf="@+id/f_text"
+        android:theme="@style/AppThemeBtn"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/t_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#00ff0000"
         android:text="기타 신고"
+        android:gravity="center"
+        android:backgroundTint="#FAEEEE"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s_text" />
+        app:layout_constraintTop_toBottomOf="@+id/s_text"
+        android:theme="@style/AppThemeBtn"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,3 +45,13 @@ data class detail_comment(
     @SerializedName("comment")
     val comment : String,
 )
+
+data class postReport(
+    @SerializedName("result")
+    val result : String
+)
+
+data class report_comment(
+    @SerializedName("comment")
+    val comment: String
+)

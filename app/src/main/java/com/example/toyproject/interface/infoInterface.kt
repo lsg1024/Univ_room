@@ -2,10 +2,7 @@ package com.example.toyproject.`interface`
 
 import com.example.toyproject.DTO.*
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface infoInterface {
 
@@ -29,5 +26,8 @@ interface infoInterface {
 
     @POST("room/comment")
     fun postComment(@Body detail_comment: detail_comment) : Call<detail_result_comment>
+
+    @POST("room/commentreport")
+    fun postReport(@Header("u_pk") u_pk : Int, @Header("r_pk") r_pk: Int, @Body report_comment: report_comment) : Call<postReport>
 
 }

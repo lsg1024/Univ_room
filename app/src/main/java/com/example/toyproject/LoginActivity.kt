@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.toyproject.DTO.loginDTO
 import com.example.toyproject.DTO.login_data
+import com.example.toyproject.`interface`.MySharedPreferences
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
     private var guest : TextView? = null
     private val call by lazy { Retrofit_API.getInstance() }
     var wait:Long = 0
+    lateinit var u_key : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
         pw = binding.pw
         l_btn = binding.loginBtn
         guest = binding.textView
+        u_key = MySharedPreferences.getUserKey(this)
 
     }
 
@@ -52,40 +55,47 @@ class LoginActivity : AppCompatActivity() {
 
         val intent = Intent(this@LoginActivity, PickActivity::class.java)
 
-        l_btn?.setOnClickListener {
-
-            val i_id = id?.text.toString()
-            val i_pw = pw?.text.toString()
-
-            Log.d("info_data", i_id + i_pw)
-
-            call?.login(login_data(i_id, i_pw))?.enqueue(object : Callback<loginDTO> {
-                override fun onResponse(call: Call<loginDTO>, response: Response<loginDTO>) {
-                    if (response.isSuccessful){
-                        val result : loginDTO? = response.body()
-
-                        Log.d("login_result", "$result")
-                        Log.d("user_key_data","${result!!.login_result.user_pk}")
-
-                        startActivity(intent)
-                        Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                }
-
-                override fun onFailure(call: Call<loginDTO>, t: Throwable) {
-                    Log.d("login_fail", "${t.message}")
-                    Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
-                }
-
-            }) // call retrofit2
-        } // l_btn
-
-        guest?.setOnClickListener {
+        if (u_key.isNotEmpty()){
             startActivity(intent)
-            Toast.makeText(this@LoginActivity, "게스트 모드", Toast.LENGTH_SHORT).show()
-            finish()
+        } else{
+            l_btn?.setOnClickListener {
+
+                val i_id = id?.text.toString()
+                val i_pw = pw?.text.toString()
+
+                Log.d("info_data", i_id + i_pw)
+
+                call?.login(login_data(i_id, i_pw))?.enqueue(object : Callback<loginDTO> {
+                    override fun onResponse(call: Call<loginDTO>, response: Response<loginDTO>) {
+                        if (response.isSuccessful){
+                            val result : loginDTO? = response.body()
+
+                            Log.d("login_result", "$result")
+                            Log.d("user_key_data","${result!!.login_result.user_pk}")
+
+                            MySharedPreferences.setUserKey(this@LoginActivity, result.login_result.user_pk)
+
+                            startActivity(intent)
+                            Toast.makeText(this@LoginActivity, "로그인 성공", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<loginDTO>, t: Throwable) {
+                        Log.d("login_fail", "${t.message}")
+                        Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
+                    }
+
+                }) // call retrofit2
+            } // l_btn
+
+            guest?.setOnClickListener {
+                startActivity(intent)
+                Toast.makeText(this@LoginActivity, "게스트 모드", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
+
     }
 
     override fun onDestroy() {

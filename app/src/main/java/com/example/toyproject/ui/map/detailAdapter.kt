@@ -3,6 +3,9 @@ package com.example.toyproject.ui.map
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -12,9 +15,16 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.DTO.detail_data
+import com.example.toyproject.DTO.postReport
+import com.example.toyproject.DTO.report_comment
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
+import com.example.toyproject.`interface`.MySharedPreferences
+import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.DetailItemBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -22,8 +32,11 @@ import java.util.concurrent.TimeUnit
 
 class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.detailHolder>() {
 
+    private val call by lazy { Retrofit_API.getInstance() }
     private lateinit var binding: DetailItemBinding
     lateinit var dialog_message : String
+    lateinit var u_key : String
+    var rm_key : Int? = null
 
     override fun onBindViewHolder(holder: detailHolder, position: Int) {
 
@@ -40,18 +53,21 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
         return differ.currentList.size
     }
 
+    // item 홀더
     inner class detailHolder(private val binding : DetailItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         @SuppressLint("SimpleDateFormat")
         fun bind(item : detail_data){
             val severTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(item.date)!!
             val formatTime = calculationTime(severTime.time)
+
             binding.itemComment.text = item.comment
             binding.ratingBar.rating = item.star
             binding.itemDate.text = formatTime
+            rm_key = item.r_pk
             // 클릭 이벤트 변경해야됨
             binding.notification.setOnClickListener{
-                declarationDialog(context)
+                declarationDialog()
             }
         }
     }
@@ -98,11 +114,11 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
         }
         return value
     }
-
     // 다이얼로그
-    fun declarationDialog(context : Context){
+    fun declarationDialog(){
         val dDialog = Dialog(context)
         dDialog.setContentView(R.layout.declaration_dialog)
+        dDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dDialog.show()
 
@@ -132,8 +148,11 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
     }
 
     fun requestDialog(){
+        u_key = MySharedPreferences.getUserKey(context)
+        Log.d("requestDialog", "${u_key}  ${rm_key}")
         val requestDialog = Dialog(context)
         requestDialog.setContentView(R.layout.request_dialog)
+        requestDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         requestDialog.setCancelable(false)
         requestDialog.show()
 
@@ -145,7 +164,20 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
 
         accept.setOnClickListener {
             // 서버에 신고 접수
+            call!!.postReport(u_key.toInt(), rm_key!!, report_comment(dialog_message)).enqueue(object : Callback<postReport>{
+                override fun onResponse(call: Call<postReport>, response: Response<postReport>) {
+                    if (response.isSuccessful){
+                        val dialog_result = response.body()!!.result
+                        Log.d("reportSuccess", dialog_result)
+                    }
+                }
+
+                override fun onFailure(call: Call<postReport>, t: Throwable) {
+                }
+
+            })
             Toast.makeText(context, "신고 접수가 완료되었습니다", Toast.LENGTH_SHORT).show()
+            requestDialog.dismiss()
         }
 
         cancel.setOnClickListener {

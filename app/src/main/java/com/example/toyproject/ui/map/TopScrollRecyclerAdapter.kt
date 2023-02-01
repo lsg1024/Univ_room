@@ -37,30 +37,6 @@ class TopScrollRecyclerAdapter(val dataList: Array<String>, spinnerData: String,
         holder.itemView.setOnClickListener {
             itemClickListener.onClick(it, position)
         }
-        // 클릭시 해당 범위 값들 출력 position 1 부터 시작
-//       holder.btn_name.setOnClickListener {
-//           Log.d("Top_btn_click", sortData)
-//           Log.d("Top_btn_click", dataList[position])
-//
-//            call?.getRoom("desc", dataList[position])!!.enqueue(object : Callback<roomDTO>{
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
-//
-//                    if (response.isSuccessful){
-//                        val topResult : roomDTO = response.body()!!
-//
-//                        // 여기서 어떻게 갱신할지???
-//
-//                    }
-//
-//                }
-//
-//                override fun onFailure(call: Call<roomDTO>, t: Throwable) {
-//
-//                }
-//
-//            })
-//        }
 
     }
     // (2) 리스너 인터페이스

@@ -15,6 +15,9 @@
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="AppThemeBtn">
+        <item name="colorControlHighlight">#ED7878</item>
+    </style>
     <style name="Theme.ToyProject.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

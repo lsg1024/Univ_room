@@ -2,9 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="200dp"
-    android:layout_gravity="center">
+    android:layout_width="380dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:backgroundTint="#FAEEEE"
+    android:paddingBottom="20dp"
+    android:background="@drawable/detail_dialog">
 
     <TextView
         android:id="@+id/final_title"
@@ -22,9 +25,9 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="단순한 개인적인 경우 결과 반영이 되지 않을 수 있습니다 \n신고하시겠습니까?"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
+        android:text="단순한 개인적인 경우 결과 반영이 되지 않을 수 있습니다 \n신고하시겠습니까?"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/final_title" />
 
@@ -36,7 +39,7 @@
         android:textColor="@color/white"
         android:background="@drawable/noside_white_edge"
         android:backgroundTint="#F2594B"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toStartOf="@+id/cancel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -46,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:text="취소"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#F2594B"
         android:textColor="@color/white"
         android:background="@drawable/noside_white_edge"
