@@ -1,12 +1,12 @@
-package com.example.toyproject
+package com.example.toyproject.ui.map
 
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.example.toyproject.DTO.room_result
+import com.example.toyproject.R
 import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPOIItem
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    app:cardCornerRadius="15dp"
+    android:layout_gravity="center"
+    android:backgroundTint="#FAEEEE"
+    android:background="@drawable/detail_dialog">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="별점 남기기"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/dialog_rtb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:isIndicator="false"
+            android:secondaryProgressTint="@android:color/transparent"
+            android:progressBackgroundTint="@color/black"
+            android:progressTint="#F2594B"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"/>
+
+        <EditText
+            android:id="@+id/dialog_et"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:textSize="12dp"
+            android:hint="간단한 후기를 남겨주세요!! (20글자 제한)"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:gravity="center"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_rtb" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_btn"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:background="@drawable/noside_white_edge"
+            android:backgroundTint="#F2594B"
+            android:text="완료"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_et" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

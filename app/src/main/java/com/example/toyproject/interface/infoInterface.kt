@@ -1,8 +1,6 @@
 package com.example.toyproject.`interface`
 
-import com.example.toyproject.DTO.loginDTO
-import com.example.toyproject.DTO.login_data
-import com.example.toyproject.DTO.roomDTO
+import com.example.toyproject.DTO.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,5 +23,11 @@ interface infoInterface {
 
     @GET("room/search")
     fun getSearch(@Query("rN") rN : String?) : Call<roomDTO>
+
+    @GET("room/commentView")
+    fun getComment(@Query("r_pk") r_pk : Int?) : Call<detailDTO>
+
+    @POST("room/comment")
+    fun postComment(@Body detail_comment: detail_comment) : Call<detail_result_comment>
 
 }

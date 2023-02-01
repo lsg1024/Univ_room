@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.toyproject.databinding.ActivityMainBinding
+import com.example.toyproject.databinding.ActivityPickBinding
 import com.example.toyproject.ui.map.MapFragment
 import com.example.toyproject.ui.userpage.UserPageFragment
 import com.google.android.material.snackbar.Snackbar

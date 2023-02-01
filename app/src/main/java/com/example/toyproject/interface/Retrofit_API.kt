@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Retrofit_API {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://210.119.104.114:3000/")
+        .baseUrl("http://oceanit.synology.me:8002/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

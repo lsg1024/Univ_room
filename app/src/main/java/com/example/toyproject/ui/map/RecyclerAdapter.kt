@@ -1,26 +1,17 @@
 package com.example.toyproject.ui.map
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.graphics.toColor
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.AppCompatDrawableManager.preload
 import androidx.recyclerview.widget.RecyclerView
-import com.example.toyproject.CustomBalloonAdapter
-import com.example.toyproject.DTO.roomDTO
+import com.bumptech.glide.Glide
 import com.example.toyproject.DTO.room_result
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
 import com.example.toyproject.databinding.RListItemBinding
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -32,41 +23,73 @@ class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(bindin
     val ls_add = binding.listAdd
     val ls_price1 = binding.listPrice1
     val ls_price2 = binding.listPrice2
-    val ls_img = binding.appCompatImageView
+    var ls_img = binding.appCompatImageView
     val stateMove = binding.stateMove
     val chat = binding.chat
     val heart = binding.heart
+    val n_heart = binding.numHeart
 
 }
 
-class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapView, var marker: MapPOIItem, context: Context) : RecyclerView.Adapter<RoomViewHolder>() {
+class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapView, var marker: MapPOIItem, val context: Context) : RecyclerView.Adapter<RoomViewHolder>() {
 
     val mainActivity = context as MainActivity
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
-
         Log.d("onBindViewHolder", "onBindViewHolder")
 
+        val img = roomList[position]
+
         holder.apply {
-            ls_title.text = RoomList[position].roomName
-            ls_add.text = RoomList[position].location
-            ls_price1.text = RoomList[position].price1.toString()
-            ls_price2.text = RoomList[position].price2.toString()
+            ls_title.text = roomList[position].roomName
+            ls_add.text = roomList[position].location
+            ls_price1.text = roomList[position].price1.toString()
+            ls_price2.text = roomList[position].price2.toString()
+            n_heart.text = roomList[position].heart.toString()
+
+//            ls_img = roomList[position]
+
+//            Glide.with(context).load(img.image)
+//                .override(150, 200)
+//                .into(ls_img)
         }
+
+//        if (position <= roomList.size) {
+//            val endPosition = if (position + 5 > roomList.size) {
+//                roomList.size
+//            }
+//            else {
+//                position + 5
+//            }
+//            roomList.subList(position, endPosition).map { it.image }.forEach {
+//                preload(context, it)
+//            }
+//        }
+
+        // 클릭시 하트 이벤트
+//        if (heartResult){
+//
+//        }
 
         // 클릭시 해당 값을 위치로 지도 이동 후 마커 출력
         holder.stateMove.setOnClickListener {
             mapView.setZoomLevel(0, false)
-            mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, RoomList))
-            makerEvent(RoomList[position].roomName, RoomList[position].latitude, RoomList[position].longitude, position)
+            mapView.setCalloutBalloonAdapter(CustomBalloonAdapter(mainActivity.layoutInflater, position, roomList))
+            makerEvent(roomList[position].roomName, roomList[position].latitude, roomList[position].longitude, position)
         }
 
         // 클릭시 전체 화면으로 전환되어야 된다
         holder.cardview.setOnClickListener {
-            Log.d("cardView", "cardView${position}")
+            Log.d("click_pos", "$position")
+            Log.d("click_pos", "${roomList[position].room_pk}")
+            val intent = Intent(context, detailActivity::class.java)
+            intent.putExtra("rm_key", roomList[position].room_pk)
+            intent.putExtra("title", roomList[position].roomName)
+            intent.putExtra("add", roomList[position].location)
+            intent.putExtra("price1", roomList[position].price1)
+            intent.putExtra("price2", roomList[position].price2)
+            context.startActivity(intent)
         }
-
-
 
     }
 
@@ -77,10 +100,8 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
     }
 
     override fun getItemCount(): Int {
-        return RoomList.size
+        return roomList.size
     }
-
-    inner class be
 
     fun makerEvent(itemName: String, latitude: Double, longitude: Double, position: Int) {
 
@@ -99,5 +120,16 @@ class RecyclerAdapter(val RoomList : ArrayList<room_result>, var mapView: MapVie
 
     }
 
+    fun preload(context: Context, url : String){
+        Glide.with(context).load(url)
+            .preload(150, 200)
+    }
 
+    fun <T> heartData(array: Array<T>, target: T): Boolean {
+        return target in array
+    }
+
+    fun heartResult(){
+
+    }
 }

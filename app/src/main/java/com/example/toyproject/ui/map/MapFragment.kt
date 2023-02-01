@@ -3,6 +3,7 @@ package com.example.toyproject.ui.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,10 +27,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.*
-import com.example.toyproject.DTO.loginDTO
-import com.example.toyproject.DTO.login_result
 import com.example.toyproject.DTO.roomDTO
-import com.example.toyproject.DTO.room_result
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -142,6 +141,7 @@ open class MapFragment : Fragment(){
         // 룸 리사이클러 최초 로딩 -> 시작 창에서 클릭 했을 때
         retrofit("desc", category!!)
 
+        val imm: InputMethodManager = mainActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         // 룸 리상이클러 검색 이벤트
         search_edit!!.setOnEditorActionListener { _, i, _ ->
             var handled = false
@@ -155,6 +155,8 @@ open class MapFragment : Fragment(){
                             RoomRecyclerView.adapter = RecyclerAdapter(search_result!!.result, mapView!!, marker!!, context!!)
                         }
 
+                        search_edit!!.clearFocus()
+                        imm.hideSoftInputFromWindow(search_edit!!.windowToken, 0)
                         handled = true
                     }
 
@@ -172,13 +174,11 @@ open class MapFragment : Fragment(){
         TopRecyclerView.adapter = topAdapter
         topAdapter.setItemClickListener(object : TopScrollRecyclerAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-
-                t_position = position
-                retrofit("desc", position.toString())
+                val category = arrayOf(0, 1, 3, 5, 2, 4, 6)
+                t_position = category[position]
+                retrofit("desc", t_position.toString())
             }
         })
-
-
 
         // spinner 이벤트 -> 스피너 이벤트는 상단 카테고리 옵션 번호를 가져와야된다
         // 문제점 스피너는 선택된 상태여서 항사 먼저 호출된다 -> 해결

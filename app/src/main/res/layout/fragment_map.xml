@@ -12,68 +12,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#F2594B">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/search_edit"
-            android:layout_width="350dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/only_withe_edge"
-            android:drawableStart="@drawable/search_24"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/innerConstarint"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#F2594B"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:textSize="15dp"
+                android:background="@drawable/only_withe_edge"
+                android:hint="자취방을 검색해보세요!!"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:drawableEnd="@drawable/search_24"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_edit">
+            app:layout_constraintTop_toBottomOf="@+id/innerConstarint">
 
-        </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/location"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="60dp"
+                android:background="@drawable/red_edge"
+                android:elevation="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/baseline_my_location_24"
+                    android:backgroundTint="@color/red"
+                    android:elevation="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/scroll_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_edit" />
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/location"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_margin="15dp"
-            android:background="@drawable/red_edge"
-            android:elevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/baseline_my_location_24"
-                android:backgroundTint="@color/red"
-                android:elevation="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/innerConstarint" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
@@ -92,7 +104,7 @@
                 android:layout_height="match_parent"
                 app:behavior_expandedOffset="95dp"
                 app:behavior_fitToContents="false"
-                app:behavior_peekHeight="40dp"
+                app:behavior_peekHeight="50dp"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,8 +113,10 @@
                     android:layout_height="50dp"
                     android:background="@drawable/top_white_edge"
                     android:gravity="center"
+                    android:padding="3dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -110,7 +124,9 @@
                         android:id="@+id/spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:spinnerMode="dropdown"
+                        android:verticalScrollbarPosition="left"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -119,10 +135,11 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="120px"
-                    android:layout_height="10px"
+                    android:layout_width="240px"
+                    android:layout_height="12px"
+                    android:backgroundTint="#F2594B"
                     android:background="@drawable/noside_white_edge"
-                    app:layout_constraintBottom_toBottomOf="@id/bottom_sheet_layout"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -131,6 +148,9 @@
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:paddingTop="5dp"
+                    android:backgroundTint="#F6F6F6"
+                    android:paddingBottom="5dp"
                     android:layout_marginBottom="95dp"
                     android:background="#F5F5F5"
                     app:layout_constraintBottom_toBottomOf="parent"
