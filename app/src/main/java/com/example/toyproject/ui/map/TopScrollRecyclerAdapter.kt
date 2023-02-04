@@ -14,15 +14,10 @@ import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
 import com.example.toyproject.databinding.ScrollItemBinding
 
-class TopScrollRecyclerAdapter(val dataList: Array<String>, spinnerData: String, val context: Context, binding: FragmentMapBinding) : RecyclerView.Adapter<TopScrollRecyclerAdapter.TopScrollHolder>(){
+class TopScrollRecyclerAdapter(val dataList: Array<String>, spinnerData: String, val context: Context, binding: FragmentMapBinding) :
+    RecyclerView.Adapter<TopScrollRecyclerAdapter.TopScrollHolder>() {
 
-    private val call by lazy { Retrofit_API.getInstance() }
-
-    val mainActivity = context as MainActivity
-    val sortData : String = spinnerData
-    val bundle = Bundle()
     val intent = Intent(context, PickActivity::class.java)
-    val RoomRecyclerView : RecyclerView = binding.recyclerView
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopScrollHolder {
         val binding = ScrollItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -39,6 +34,7 @@ class TopScrollRecyclerAdapter(val dataList: Array<String>, spinnerData: String,
         }
 
     }
+
     // (2) 리스너 인터페이스
     interface OnItemClickListener {
         fun onClick(v: View, position: Int)

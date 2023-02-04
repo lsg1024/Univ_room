@@ -36,12 +36,11 @@ data class room_result(
     @SerializedName("category")
     var category: Int,
 
-    @SerializedName("heart")
-    var heart : Int,
+    @SerializedName("heart_user")
+    var heart_user : String?
+)
 
-    @SerializedName("heart_u")
-    var heart_u : Int,
-
-    @SerializedName("image")
-    var image: String
+data class roomHeart(
+    @SerializedName("result")
+    val result : String
 )

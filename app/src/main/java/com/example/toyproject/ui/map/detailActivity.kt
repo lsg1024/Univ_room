@@ -7,12 +7,14 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.toyproject.DTO.detailDTO
 import com.example.toyproject.DTO.detail_comment
 import com.example.toyproject.DTO.detail_data
@@ -90,17 +92,22 @@ class detailActivity : AppCompatActivity() {
             price1.text = getIntExtra("price1", default_num).toString()
             price2.text = getIntExtra("price2",default_num).toString()
         }
+
+        Glide.with(title_img.context)
+            .load("http://oceanit.synology.me:8002/image/${r_key}.png")
+            .into(title_img)
     }
 
     // 메인 정보를 받아서 리사이클려 어뎁터에 전달해준다
     fun call_Retrofit(){
         call!!.getComment(r_key).enqueue(object : Callback<detailDTO>{
-            @SuppressLint("NotifyDataSetChanged")
+
             override fun onResponse(call: Call<detailDTO>, response: Response<detailDTO>) {
                 if (response.isSuccessful) {
                     val detail_data = response.body()!!.rm_result
 
                     detailAdapter.differ.submitList(detail_data)
+
                 } else {
                     Toast.makeText(this@detailActivity, "오류가 발생했습니다", Toast.LENGTH_SHORT).show()
                 }

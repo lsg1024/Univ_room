@@ -5,12 +5,17 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatDrawableManager.preload
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.toyproject.DTO.roomHeart
 import com.example.toyproject.DTO.room_result
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
+import com.example.toyproject.`interface`.MySharedPreferences
+import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.RListItemBinding
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
@@ -25,7 +30,6 @@ class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(bindin
     val ls_price2 = binding.listPrice2
     var ls_img = binding.appCompatImageView
     val stateMove = binding.stateMove
-    val chat = binding.chat
     val heart = binding.heart
     val n_heart = binding.numHeart
 
@@ -34,42 +38,38 @@ class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(bindin
 class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapView, var marker: MapPOIItem, val context: Context) : RecyclerView.Adapter<RoomViewHolder>() {
 
     val mainActivity = context as MainActivity
+    lateinit var u_pk : String
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         Log.d("onBindViewHolder", "onBindViewHolder")
 
-        val img = roomList[position]
+        u_pk = MySharedPreferences.getUserKey(context)
+
+        // 하트 유무를 null 처리를 해줘야됨 서버에서는 없는 경우 null 이기 때문에
+        if (roomList[position].heart_user.isNullOrEmpty()){
+            holder.n_heart.text = "0"
+        } else {
+            val split = roomList[position].heart_user?.split(",")
+            Log.d("onBindViewHoldersplit", "$split")
+            holder.n_heart.text = split?.size.toString()
+            val heart = split!!.contains(u_pk)
+            if (heart){
+                holder.heart.setImageResource(R.drawable.favorite)
+            } else holder.heart.setImageResource(R.drawable.favorite_24)
+        }
 
         holder.apply {
             ls_title.text = roomList[position].roomName
             ls_add.text = roomList[position].location
             ls_price1.text = roomList[position].price1.toString()
             ls_price2.text = roomList[position].price2.toString()
-            n_heart.text = roomList[position].heart.toString()
 
-//            ls_img = roomList[position]
-
-//            Glide.with(context).load(img.image)
-//                .override(150, 200)
-//                .into(ls_img)
+            Glide.with(holder.ls_img.context)
+                .load("http://oceanit.synology.me:8002/image/${roomList[position].room_pk}.png")
+                .override(150, 200)
+                .into(holder.ls_img)
         }
 
-//        if (position <= roomList.size) {
-//            val endPosition = if (position + 5 > roomList.size) {
-//                roomList.size
-//            }
-//            else {
-//                position + 5
-//            }
-//            roomList.subList(position, endPosition).map { it.image }.forEach {
-//                preload(context, it)
-//            }
-//        }
-
-        // 클릭시 하트 이벤트
-//        if (heartResult){
-//
-//        }
 
         // 클릭시 해당 값을 위치로 지도 이동 후 마커 출력
         holder.stateMove.setOnClickListener {
@@ -120,16 +120,7 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
 
     }
 
-    fun preload(context: Context, url : String){
-        Glide.with(context).load(url)
-            .preload(150, 200)
-    }
-
-    fun <T> heartData(array: Array<T>, target: T): Boolean {
-        return target in array
-    }
-
-    fun heartResult(){
-
-    }
+//    fun heartClick(holder : RoomViewHolder){
+//        if (holder.heart)
+//    }
 }

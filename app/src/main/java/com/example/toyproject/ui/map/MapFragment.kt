@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.*
 import com.example.toyproject.DTO.roomDTO
+import com.example.toyproject.`interface`.MySharedPreferences
 import com.example.toyproject.`interface`.Retrofit_API
 import com.example.toyproject.databinding.FragmentMapBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -43,17 +44,9 @@ open class MapFragment : Fragment(){
 
     private val call by lazy { Retrofit_API.getInstance() }
     private var _binding: FragmentMapBinding? = null
-    private val LOG_TAG = "EventsDemoActivity"
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
-
-    // 위도
-    var uLatitude: Double = 0.0
-    // 경도
-    var uLongitude: Double = 0.0
     // 위치 탐색 성공
     var success : Boolean = true
-    // 사용자 위치
-    var userPosition : MapPoint? = null
 
     private val binding get() = _binding!!
 
@@ -63,8 +56,8 @@ open class MapFragment : Fragment(){
     private var u_location : ConstraintLayout? = null
     private var marker : MapPOIItem? = null
     lateinit var behavior : BottomSheetBehavior<View>
-    lateinit var RoomRecyclerView : RecyclerView
-    lateinit var TopRecyclerView : RecyclerView
+    lateinit var roomRecyclerView : RecyclerView
+    lateinit var topRecyclerView : RecyclerView
     private var search_edit : EditText? = null
     private var search : String? = null
     private var spinner : Spinner? = null
@@ -75,7 +68,8 @@ open class MapFragment : Fragment(){
     var topData = arrayOf("전체보기" ,"정문", "중문", "후문", "서틀뒤", "농가마트", "기숙사 근처")
     var category : String? = null
     var t_position : Int? = null
-
+    var heartArrayList : ArrayList<String>? = null
+    lateinit var u_pk : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,11 +99,11 @@ open class MapFragment : Fragment(){
         // 바텀시트
         behavior = BottomSheetBehavior.from(binding.bottomLayout)
         // 바텀시트 리사이클러 뷰
-        RoomRecyclerView = binding.recyclerView
-        RoomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        roomRecyclerView = binding.recyclerView
+        roomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         // 상단 스크롤 버튼 리사이클러 뷰
-        TopRecyclerView = binding.scrollRecyclerView
-        TopRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        topRecyclerView = binding.scrollRecyclerView
+        topRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         search_edit = binding.searchEdit
         val adapter1 = ArrayAdapter(mainActivity, R.layout.item_spinner, dataArr)
@@ -117,12 +111,15 @@ open class MapFragment : Fragment(){
         spinner!!.adapter = adapter1
         // spinner setselection 옵션을 넣지 않으면 자동으로 true 값이 적용되어 로직이 작동해버린다
         spinner!!.setSelection(0, false)
+        u_pk = MySharedPreferences.getUserKey(mainActivity)
 
         return root
     }
 
     override fun onResume() {
         super.onResume()
+
+        val imm: InputMethodManager = mainActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
         // 바텀 시트 이벤트 함수
         behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback(){
@@ -141,18 +138,18 @@ open class MapFragment : Fragment(){
         // 룸 리사이클러 최초 로딩 -> 시작 창에서 클릭 했을 때
         retrofit("desc", category!!)
 
-        val imm: InputMethodManager = mainActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         // 룸 리상이클러 검색 이벤트
         search_edit!!.setOnEditorActionListener { _, i, _ ->
             var handled = false
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 search = search_edit!!.text.toString()
-                call!!.getSearch(search).enqueue(object : Callback<roomDTO>{
+                call!!.getSearch(search, "desc").enqueue(object : Callback<roomDTO>{
                     override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
 
                         if (response.isSuccessful) {
                             val search_result = response.body()
-                            RoomRecyclerView.adapter = RecyclerAdapter(search_result!!.result, mapView!!, marker!!, context!!)
+                            roomRecyclerView.adapter = RecyclerAdapter(search_result!!.result, mapView!!, marker!!, context!!)
+                            spinner!!.visibility = View.INVISIBLE
                         }
 
                         search_edit!!.clearFocus()
@@ -167,15 +164,17 @@ open class MapFragment : Fragment(){
                 })
             }
             handled
+
         }
 
         val topAdapter = TopScrollRecyclerAdapter(topData, spinnerData, mainActivity, binding)
         // 상단 스크롤 버튼 리사이클러 뷰
-        TopRecyclerView.adapter = topAdapter
+        topRecyclerView.adapter = topAdapter
         topAdapter.setItemClickListener(object : TopScrollRecyclerAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val category = arrayOf(0, 1, 3, 5, 2, 4, 6)
                 t_position = category[position]
+                spinner!!.visibility = View.VISIBLE
                 retrofit("desc", t_position.toString())
             }
         })
@@ -324,12 +323,14 @@ open class MapFragment : Fragment(){
     }
 
     fun retrofit(spinnerData : String, position : String){
-        call!!.getRoom(spinnerData, position).enqueue(object : Callback<roomDTO>{
+        call!!.getRoom(u_pk.toInt() ,spinnerData, position).enqueue(object : Callback<roomDTO>{
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
                     val data = response.body()!!
-
-                    RoomRecyclerView.adapter = RecyclerAdapter(data.result, mapView!!, marker!!, context!!)
+                    Log.d("mapF", "${data.result[0].heart_user}")
+//                    val split = data.result[0].heart_user.split(",")
+//                    Log.d("mapF", "${split.size}")
+                    roomRecyclerView.adapter = RecyclerAdapter(data.result, mapView!!, marker!!, context!!)
                 }
             }
 

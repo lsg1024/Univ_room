@@ -7,7 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
@@ -37,6 +39,7 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
     lateinit var dialog_message : String
     lateinit var u_key : String
     var rm_key : Int? = null
+    var c_key : Int? = null
 
     override fun onBindViewHolder(holder: detailHolder, position: Int) {
 
@@ -65,6 +68,7 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
             binding.ratingBar.rating = item.star
             binding.itemDate.text = formatTime
             rm_key = item.r_pk
+            c_key = item.c_pk
             // 클릭 이벤트 변경해야됨
             binding.notification.setOnClickListener{
                 declarationDialog()
@@ -164,7 +168,7 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
 
         accept.setOnClickListener {
             // 서버에 신고 접수
-            call!!.postReport(u_key.toInt(), rm_key!!, report_comment(dialog_message)).enqueue(object : Callback<postReport>{
+            call!!.postReport(u_key.toInt(), c_key!!, report_comment(dialog_message)).enqueue(object : Callback<postReport>{
                 override fun onResponse(call: Call<postReport>, response: Response<postReport>) {
                     if (response.isSuccessful){
                         val dialog_result = response.body()!!.result

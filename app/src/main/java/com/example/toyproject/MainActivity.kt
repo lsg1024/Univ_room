@@ -89,13 +89,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
-        private lateinit var binding: ActivityMainBinding
-
-        fun hideNavi(state: Boolean){
-            if (state) binding.navView.visibility = View.GONE else binding.navView.visibility = View.VISIBLE
-        }
-    }
-
 }
 

@@ -10,6 +10,9 @@ data class detailDTO(
 
 data class detail_data(
 
+    @SerializedName("c_pk")
+    val c_pk : Int,
+
     @SerializedName("r_pk")
     val r_pk : Int,
 
