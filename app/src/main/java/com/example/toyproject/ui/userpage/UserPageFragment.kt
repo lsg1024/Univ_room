@@ -1,7 +1,9 @@
 package com.example.toyproject.ui.userpage
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.toyproject.DTO.roomDTO
+import com.example.toyproject.DTO.roomHeart
+import com.example.toyproject.DTO.room_result
+import com.example.toyproject.LoginActivity
 import com.example.toyproject.MainActivity
 import com.example.toyproject.R
 import com.example.toyproject.`interface`.MySharedPreferences
@@ -28,17 +33,12 @@ class UserPageFragment : Fragment() {
     private var _binding: FragmentUserpageBinding? = null
     private val binding get() = _binding!!
     private val call by lazy { Retrofit_API.getInstance() }
-    private val mainActivity = context as MainActivity
-    private val userAdapter by lazy { UserAdapter(mainActivity, u_key) }
+    private var userAdapter : UserAdapter? = null
     lateinit var userRecyclerView : RecyclerView
     lateinit var button : Button
     lateinit var u_key : String
+    var r_pk : ArrayList<room_result>? = null
     var img : ImageView? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +49,11 @@ class UserPageFragment : Fragment() {
 
         _binding = FragmentUserpageBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val mainActivity = context as MainActivity
 
         u_key = MySharedPreferences.getUserKey(mainActivity)
+
+        userAdapter = UserAdapter(mainActivity, u_key.toInt())
 
         userRecyclerView = binding.userRecyclerView
         userRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -59,9 +62,7 @@ class UserPageFragment : Fragment() {
         button = binding.button
         img = binding.imageView2
         userBackground()
-
-//        userRecyclerView.adapter = UserAdapter()
-
+        listRetrofit()
         logout(mainActivity)
 
         return root
@@ -73,9 +74,19 @@ class UserPageFragment : Fragment() {
     }
 
     fun logout(mainActivity : MainActivity){
-        button.setOnClickListener {
-            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-            u_key = MySharedPreferences.removeKey(mainActivity).toString()
+        val intent = Intent(context, LoginActivity::class.java)
+        if (u_key.isEmpty()){
+            button.text = "로그인"
+            button.setOnClickListener{
+                startActivity(intent)
+            }
+        } else {
+            button.text = "로그아웃"
+            button.setOnClickListener {
+                Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                u_key = MySharedPreferences.removeKey(mainActivity).toString()
+                startActivity(intent)
+            }
         }
     }
 
@@ -88,13 +99,16 @@ class UserPageFragment : Fragment() {
         }
     }
 
-    fun retrofit(){
+    private fun listRetrofit(){
         call!!.getHeartList(u_key.toInt()).enqueue(object : Callback<roomDTO>{
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
                     val result = response.body()!!.result
 
-                    userAdapter.differ.submitList(result)
+//                    r_pk = result
+//                    userAdapter = UserAdapter(mainActivity, u_key)
+//                    Log.d("retrofit", "$u_key " + "$r_pk")
+                    userAdapter!!.differ.submitList(result)
 
                 }
             }

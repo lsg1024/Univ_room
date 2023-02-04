@@ -19,9 +19,8 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="로그인"
         android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +40,7 @@
         android:layout_height="0dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:gravity="center"
+        android:paddingStart="5dp"
         android:background="@color/white"
         android:text="내가 찜한 방"
         android:textColor="@color/black"
