@@ -24,9 +24,6 @@ class CustomBalloonAdapter(inflater: LayoutInflater, position: Int, val RoomList
         name.text = RoomList[lposition!!].roomName
         address.text = RoomList[lposition!!].location
         price.text = RoomList[lposition!!].price1.toString()
-        Log.d("getCalloutBalloon", "${RoomList!![lposition!!].roomName}")
-        Log.d("getCalloutBalloon", "${lposition}")
-        Log.d("getCalloutBalloon", "${name.text}")
         return lCalloutBalloon
     }
 

@@ -8,10 +8,13 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.toyproject.DTO.loginDTO
@@ -28,10 +31,17 @@ class LoginActivity : AppCompatActivity() {
 
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
+    private var joinView : ConstraintLayout? = null
+    private var mainView : ConstraintLayout? = null
     private var id : EditText? = null
     private var pw : EditText? = null
     private var l_btn : Button? = null
-    private var guest : TextView? = null
+//    private var guest : TextView? = null
+    private var c_btn : TextView? = null
+    private var c_id : EditText? = null
+    private var f_pw : EditText? = null
+    private var s_pw : EditText? = null
+    private var join_btn : AppCompatButton? = null
     private val call by lazy { Retrofit_API.getInstance() }
     var wait:Long = 0
     lateinit var u_key : String
@@ -41,10 +51,18 @@ class LoginActivity : AppCompatActivity() {
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mainView = binding.mainView
+        joinView = binding.joinView
+        joinView!!.visibility = View.INVISIBLE
         id = binding.id
         pw = binding.pw
         l_btn = binding.loginBtn
-        guest = binding.textView
+//        guest = binding.textView
+        c_btn = binding.cId
+        c_id = binding.createId
+        f_pw = binding.fPw
+        s_pw = binding.sPw
+        join_btn = binding.joinBtn
         u_key = MySharedPreferences.getUserKey(this)
 
     }
@@ -52,6 +70,15 @@ class LoginActivity : AppCompatActivity() {
     @SuppressLint("ObsoleteSdkInt")
     override fun onResume() {
         super.onResume()
+
+        c_btn!!.setOnClickListener {
+            mainView!!.visibility = View.INVISIBLE
+            joinView!!.visibility = View.VISIBLE
+
+            // 아이디 중복 확인 // 회원가입만들기
+        }
+
+
 
         val intent = Intent(this@LoginActivity, PickActivity::class.java)
 
@@ -89,11 +116,11 @@ class LoginActivity : AppCompatActivity() {
                 }) // call retrofit2
             } // l_btn
 
-            guest?.setOnClickListener {
-                startActivity(intent)
-                Toast.makeText(this@LoginActivity, "게스트 모드", Toast.LENGTH_SHORT).show()
-                finish()
-            }
+//            guest?.setOnClickListener {
+//                startActivity(intent)
+//                Toast.makeText(this@LoginActivity, "게스트 모드", Toast.LENGTH_SHORT).show()
+//                finish()
+//            }
         }
 
     }

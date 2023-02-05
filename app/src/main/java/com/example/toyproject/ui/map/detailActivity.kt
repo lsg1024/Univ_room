@@ -2,8 +2,10 @@ package com.example.toyproject.ui.map
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -39,6 +41,7 @@ class detailActivity : AppCompatActivity() {
     lateinit var price1 : TextView
     lateinit var price2 : TextView
     lateinit var star_btn : AppCompatButton
+    lateinit var cummunity : TextView
 
     lateinit var detailDialog : Dialog
 
@@ -64,9 +67,15 @@ class detailActivity : AppCompatActivity() {
         price1 = binding.detailPrice
         price2 = binding.detailPrice2
         star_btn = binding.starBtn
+        cummunity = binding.textView9
 
         detailDialog = Dialog(this)
         detailDialog.setContentView(R.layout.detail_dialog)
+
+        cummunity.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = (Uri.parse("http://oceanit.synology.me:8002/guide"))
+            startActivity(intent) }
 
         intent_data()
         dialogEvent()
@@ -137,7 +146,7 @@ class detailActivity : AppCompatActivity() {
                 dialog_rtb.rating = fl
             }
 
-            dialog_et.setOnEditorActionListener { textView, i, keyEvent ->
+            dialog_et.setOnEditorActionListener { _, i, _ ->
                 var handled = false
                 if (i == EditorInfo.IME_ACTION_DONE){
                     handled = true

@@ -20,6 +20,9 @@ import com.example.toyproject.databinding.RListItemBinding
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RoomViewHolder(binding: RListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -39,6 +42,7 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
 
     val mainActivity = context as MainActivity
     lateinit var u_pk : String
+    private val call by lazy { Retrofit_API.getInstance() }
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         Log.d("onBindViewHolder", "onBindViewHolder")
@@ -48,15 +52,28 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
         // 하트 유무를 null 처리를 해줘야됨 서버에서는 없는 경우 null 이기 때문에
         if (roomList[position].heart_user.isNullOrEmpty()){
             holder.n_heart.text = "0"
+            holder.heart.setOnClickListener {
+                postHeart(holder, u_pk.toInt(), roomList[position].room_pk, 0)
+            }
         } else {
             val split = roomList[position].heart_user?.split(",")
             Log.d("onBindViewHoldersplit", "$split")
             holder.n_heart.text = split?.size.toString()
             val heart = split!!.contains(u_pk)
+            // 하트가 있는 경우
             if (heart){
                 holder.heart.setImageResource(R.drawable.favorite)
-            } else holder.heart.setImageResource(R.drawable.favorite_24)
+
+            // 하트가 없는 경우
+            } else {
+                holder.heart.setImageResource(R.drawable.favorite_24)
+            }
+            holder.heart.setOnClickListener {
+                postHeart(holder, u_pk.toInt(), roomList[position].room_pk, split.size)
+            }
         }
+
+
 
         holder.apply {
             ls_title.text = roomList[position].roomName
@@ -120,7 +137,39 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
 
     }
 
-//    fun heartClick(holder : RoomViewHolder){
-//        if (holder.heart)
-//    }
+    fun postHeart(holder : RoomViewHolder,u_pk: Int, r_pk: Int, split: Int){
+        call!!.postHeart(u_pk, r_pk).enqueue(object  : Callback<roomHeart> {
+            override fun onResponse(call: Call<roomHeart>, response: Response<roomHeart>) {
+                if (response.isSuccessful){
+                    val postResult = response.body()!!.result
+
+                    Log.d("retrofit", "$postResult")
+
+                    try {
+                        if (postResult == true){
+
+                            holder.heart.setImageResource(R.drawable.favorite)
+                            holder.n_heart.text = (split + 1).toString()
+                        } else{
+
+                            holder.heart.setImageResource(R.drawable.favorite_24)
+                            if (split == 0){
+                                holder.n_heart.text = "0"
+                            } else {
+                                holder.n_heart.text = (split - 1).toString()
+                            }
+                        }
+                    } catch (e: NullPointerException){
+
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<roomHeart>, t: Throwable) {
+                Toast.makeText(context, "오류가 발생했습니다!!", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
@@ -37,6 +38,7 @@ class UserPageFragment : Fragment() {
     lateinit var userRecyclerView : RecyclerView
     lateinit var button : Button
     lateinit var u_key : String
+    private var quest : TextView?= null
     var r_pk : ArrayList<room_result>? = null
     var img : ImageView? = null
 
@@ -53,19 +55,35 @@ class UserPageFragment : Fragment() {
 
         u_key = MySharedPreferences.getUserKey(mainActivity)
 
-        userAdapter = UserAdapter(mainActivity, u_key.toInt())
+        button = binding.button
+        img = binding.imageView2
+        quest = binding.quest
 
         userRecyclerView = binding.userRecyclerView
         userRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        userRecyclerView.adapter = userAdapter
 
-        button = binding.button
-        img = binding.imageView2
         userBackground()
-        listRetrofit()
         logout(mainActivity)
 
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mainActivity = context as MainActivity
+        userAdapter = UserAdapter(mainActivity)
+        userRecyclerView.adapter = userAdapter
+        listRetrofit()
+
+        quest!!.setOnClickListener {
+            val email = Intent(Intent.ACTION_SEND)
+            email.type = "plain/text"
+            val address = arrayOf("knk7691@gmail.com")
+            email.putExtra(Intent.EXTRA_EMAIL, address)
+            email.putExtra(Intent.EXTRA_SUBJECT, "[Horoom] 제목")
+            email.putExtra(Intent.EXTRA_TEXT, "수정, 삭제 기타 요청 사항을 입력해주세요\n* 이름과 이메일 필수 *")
+            startActivity(email)
+        }
     }
 
     override fun onDestroyView() {
@@ -99,15 +117,12 @@ class UserPageFragment : Fragment() {
         }
     }
 
-    private fun listRetrofit(){
+    fun listRetrofit(){
         call!!.getHeartList(u_key.toInt()).enqueue(object : Callback<roomDTO>{
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
                     val result = response.body()!!.result
 
-//                    r_pk = result
-//                    userAdapter = UserAdapter(mainActivity, u_key)
-//                    Log.d("retrofit", "$u_key " + "$r_pk")
                     userAdapter!!.differ.submitList(result)
 
                 }

@@ -42,5 +42,5 @@ data class room_result(
 
 data class roomHeart(
     @SerializedName("result")
-    val result : String
+    val result : Boolean
 )

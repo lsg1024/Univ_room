@@ -64,8 +64,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/quest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/quest"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingEnd="340dp"
+        android:gravity="center"
+        android:text="문의사항"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

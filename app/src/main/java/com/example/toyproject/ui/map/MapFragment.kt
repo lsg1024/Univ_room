@@ -323,6 +323,7 @@ open class MapFragment : Fragment(){
     }
 
     fun retrofit(spinnerData : String, position : String){
+
         call!!.getRoom(u_pk.toInt() ,spinnerData, position).enqueue(object : Callback<roomDTO>{
             override fun onResponse(call: Call<roomDTO>, response: Response<roomDTO>) {
                 if (response.isSuccessful){
