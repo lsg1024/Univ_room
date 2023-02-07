@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context="com.HORoom.HORoom.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/joinView"
@@ -36,6 +36,7 @@
             android:layout_marginTop="150dp"
             android:ems="8"
             android:hint="아이디"
+            android:imeOptions="actionDone"
             android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="패스워드"
+            android:inputType="textPassword"
             android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="@+id/create_id"
             app:layout_constraintTop_toBottomOf="@+id/create_id" />
@@ -70,6 +72,8 @@
             android:ems="10"
             android:layout_marginTop="20dp"
             android:hint="패스워드 확인"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
             app:layout_constraintStart_toStartOf="@+id/f_pw"
             app:layout_constraintTop_toBottomOf="@+id/f_pw" />
 

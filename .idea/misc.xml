@@ -11,7 +11,9 @@
         <entry key="app/src/main/res/drawable/chat-20px.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/chat.xml" value="0.2755" />
         <entry key="app/src/main/res/drawable/declar_dialog.xml" value="0.2755" />
+        <entry key="app/src/main/res/drawable/delete-24px.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/detail_dialog.xml" value="0.255" />
+        <entry key="app/src/main/res/drawable/error-24px.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/favorite-24px.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/favorite-48px.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/favorite.xml" value="0.276" />
@@ -46,6 +48,7 @@
         <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.3796490478515625" />
         <entry key="app/src/main/res/layout/customballoon.xml" value="0.7846934000651042" />
         <entry key="app/src/main/res/layout/declaration_dialog.xml" value="0.40260416666666665" />
+        <entry key="app/src/main/res/layout/delete.xml" value="0.3875" />
         <entry key="app/src/main/res/layout/detail_dialog.xml" value="0.460333251953125" />
         <entry key="app/src/main/res/layout/detail_diolog.xml" value="0.4297465006510417" />
         <entry key="app/src/main/res/layout/detail_item.xml" value="0.40260416666666665" />
@@ -63,6 +66,8 @@
         <entry key="app/src/main/res/layout/scroll_item.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.40260416666666665" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.277" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.277" />
       </map>
     </option>
   </component>

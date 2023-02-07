@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.map.detailActivity">
+    tools:context="com.HORoom.HORoom.ui.map.detailActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -13,9 +13,9 @@
         android:padding="2dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
+        android:src="@drawable/not_ready"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/imageview_edge"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/detail_name"
@@ -121,7 +121,7 @@
         android:textColor="@color/black"
         android:gravity="center"
         android:textStyle="bold"
-        android:text="커뮤니티 가이드"
+        android:text="커뮤니티 가이드를 확인해주세요!!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

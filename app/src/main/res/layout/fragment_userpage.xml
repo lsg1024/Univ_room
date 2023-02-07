@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.userpage.UserPageFragment"
+    tools:context="com.HORoom.HORoom.ui.userpage.UserPageFragment"
     android:background="#eeeeee">
 
 
@@ -76,6 +76,8 @@
         android:paddingEnd="340dp"
         android:gravity="center"
         android:text="문의사항"
+        android:elevation="5dp"
+        android:background="@color/white"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
