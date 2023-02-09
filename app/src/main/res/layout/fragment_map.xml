@@ -137,7 +137,6 @@
                     android:id="@+id/view"
                     android:layout_width="240px"
                     android:layout_height="12px"
-                    android:backgroundTint="#F2594B"
                     android:background="@drawable/noside_white_edge"
                     android:layout_marginTop="15dp"
                     app:layout_constraintEnd_toEndOf="parent"

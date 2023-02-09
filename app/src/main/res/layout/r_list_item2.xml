@@ -54,22 +54,6 @@
                 app:layout_constraintStart_toEndOf="@+id/appCompatImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/state_move"
-                android:layout_width="45dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:backgroundTint="#F2594B"
-                android:textColor="@color/white"
-                android:background="@drawable/r_list_botton_edge"
-                android:text="해당 위치"
-                android:textSize="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/list_title"
-                app:layout_constraintStart_toEndOf="@+id/list_title"
-                app:layout_constraintTop_toTopOf="@+id/list_title">
-
-            </androidx.appcompat.widget.AppCompatButton>
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/list_add"
                 android:layout_width="wrap_content"
@@ -150,7 +134,6 @@
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

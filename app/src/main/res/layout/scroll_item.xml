@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/scroll_btn"
         android:layout_width="85dp"
-        android:layout_height="25dp"
+        android:layout_height="35dp"
         android:layout_marginTop="5dp"
         android:layout_marginStart="2.5dp"
         android:layout_marginEnd="2.5dp"

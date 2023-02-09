@@ -30,7 +30,6 @@ class UserPageFragment : Fragment() {
     private var _binding: FragmentUserpageBinding? = null
     private val binding get() = _binding!!
     private val call by lazy { Retrofit_API.getInstance() }
-    private var userAdapter : UserAdapter? = null
     lateinit var userRecyclerView : RecyclerView
     lateinit var button : Button
     lateinit var u_key : String
@@ -66,9 +65,6 @@ class UserPageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val mainActivity = context as MainActivity
-        userAdapter = UserAdapter(mainActivity)
-        userRecyclerView.adapter = userAdapter
         listRetrofit()
 
         quest!!.setOnClickListener {
@@ -119,7 +115,7 @@ class UserPageFragment : Fragment() {
                 if (response.isSuccessful){
                     val result = response.body()!!.result
 
-                    userAdapter!!.differ.submitList(result)
+                    userRecyclerView.adapter = UserAdapter(context!!, result)
 
                 }
             }

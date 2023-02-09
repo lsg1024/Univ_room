@@ -50,17 +50,6 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
         holder.setIsRecyclable(false)
     }
 
-    // (2) 리스너 인터페이스
-    interface OnItemClickListener {
-        fun onClick(v: View, position: Int)
-    }
-    // (3) 외부에서 클릭 시 이벤트 설정
-    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
-        this.itemClickListener = onItemClickListener
-    }
-    // (4) setItemClickListener로 설정한 함수 실행
-    private lateinit var itemClickListener : OnItemClickListener
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): detailHolder {
         binding = DetailItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return detailHolder(binding)
@@ -79,9 +68,11 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
         fun bind(item : detail_data){
             val severTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(item.date)!!
             val formatTime = calculationTime(severTime.time)
+
             binding.itemComment.text = item.comment
             binding.ratingBar.rating = item.star
             binding.itemDate.text = formatTime
+
             lu_key = item.u_pk
             rm_key = item.r_pk
             c_key = item.c_pk
@@ -211,38 +202,15 @@ class detailAdapter(val context: Context) : RecyclerView.Adapter<detailAdapter.d
 
     }
 
-//    fun delete(){
-//        val delete_Dialog = Dialog(context)
-//        delete_Dialog.setContentView(R.layout.delete)
-//        delete_Dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        delete_Dialog.setCancelable(false)
-//        delete_Dialog.show()
-//
-//        val del_a = delete_Dialog.findViewById<AppCompatButton>(R.id.del_accept)
-//        val del_d = delete_Dialog.findViewById<AppCompatButton>(R.id.del_cancel)
-//
-//        del_a.setOnClickListener {
-//            call!!.getDel(u_key.toInt(), rm_key!!).enqueue(object : Callback<del_result>{
-//
-//                override fun onResponse(call: Call<del_result>, response: Response<del_result>) {
-//                    if (response.isSuccessful){
-//                        val result = response.body()!!.result
-//                        Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
-//                        delete_Dialog.dismiss()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<del_result>, t: Throwable) {
-//
-//                }
-//
-//            })
-//        }
-//
-//        del_d.setOnClickListener {
-//            delete_Dialog.dismiss()
-//        }
-//
-//    }
+    // (2) 리스너 인터페이스
+    interface OnItemClickListener {
+        fun onClick(v: View, position: Int)
+    }
+    // (3) 외부에서 클릭 시 이벤트 설정
+    fun setItemClickListener(onItemClickListener: OnItemClickListener) {
+        this.itemClickListener = onItemClickListener
+    }
+    // (4) setItemClickListener로 설정한 함수 실행
+    private lateinit var itemClickListener : OnItemClickListener
 
 }

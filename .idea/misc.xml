@@ -14,6 +14,8 @@
         <entry key="app/src/main/res/drawable/delete-24px.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/detail_dialog.xml" value="0.255" />
         <entry key="app/src/main/res/drawable/error-24px.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable/face-48px.xml" value="0.3195" />
+        <entry key="app/src/main/res/drawable/face.xml" value="0.276" />
         <entry key="app/src/main/res/drawable/favorite-24px.xml" value="0.2875" />
         <entry key="app/src/main/res/drawable/favorite-48px.xml" value="0.32" />
         <entry key="app/src/main/res/drawable/favorite.xml" value="0.276" />
@@ -57,11 +59,12 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4036458333333333" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.3671783447265625" />
         <entry key="app/src/main/res/layout/fragment_pick.xml" value="0.4036458333333333" />
-        <entry key="app/src/main/res/layout/fragment_userpage.xml" value="0.39901326497395834" />
+        <entry key="app/src/main/res/layout/fragment_userpage.xml" value="0.4386418660481771" />
         <entry key="app/src/main/res/layout/item_spinner.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/r_list.xml" value="0.45065765380859374" />
         <entry key="app/src/main/res/layout/r_list_button_edge.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/r_list_item.xml" value="0.4450362098723306" />
+        <entry key="app/src/main/res/layout/r_list_item2.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/request_dialog.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/layout/scroll_item.xml" value="0.40260416666666665" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.4036458333333333" />

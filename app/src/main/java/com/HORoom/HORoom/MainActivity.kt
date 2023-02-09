@@ -38,12 +38,12 @@ class MainActivity : AppCompatActivity() {
 
             when(position) {
                 0 -> {
-                    tab.text = "지도"
+//                    tab.text = "지도"
                     tab.setIcon(R.drawable.baseline_map_24)
                 }
                 1 -> {
-                    tab.text = "사용자"
-                    tab.setIcon(R.drawable.baseline_account_circle_24)
+//                    tab.text = "사용자"
+                    tab.setIcon(R.drawable.face)
                 }
             }
         }.attach()
