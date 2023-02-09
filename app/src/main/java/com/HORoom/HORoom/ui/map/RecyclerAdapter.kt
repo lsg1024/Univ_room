@@ -115,7 +115,6 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
                 .into(holder.ls_img)
         }
 
-
         // 클릭시 해당 값을 위치로 지도 이동 후 마커 출력
         holder.stateMove.setOnClickListener {
             mapView.setZoomLevel(0, false)

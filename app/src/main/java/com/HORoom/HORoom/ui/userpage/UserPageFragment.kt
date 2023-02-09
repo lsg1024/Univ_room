@@ -42,7 +42,6 @@ class UserPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel = ViewModelProvider(this)[UserPageViewModel::class.java]
 
         _binding = FragmentUserpageBinding.inflate(inflater, container, false)
         val root: View = binding.root

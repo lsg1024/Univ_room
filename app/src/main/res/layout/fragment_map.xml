@@ -102,7 +102,7 @@
                 android:id="@+id/bottom_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:behavior_expandedOffset="95dp"
+                app:behavior_expandedOffset="110dp"
                 app:behavior_fitToContents="false"
                 app:behavior_peekHeight="50dp"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -116,7 +116,6 @@
                     android:padding="3dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -126,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
                         android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/black"
                         android:verticalScrollbarPosition="left"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

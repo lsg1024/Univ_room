@@ -78,7 +78,7 @@ open class MapFragment : Fragment(){
         category = arguments?.getString("bundle_data")
     }
 
-    @SuppressLint("UseRequireInsteadOfGet")
+    @SuppressLint("UseRequireInsteadOfGet", "Range")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -87,7 +87,6 @@ open class MapFragment : Fragment(){
 
         mainActivity = context as MainActivity
 
-        val dashboardViewModel = ViewModelProvider(this)[MapViewModel::class.java]
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -99,6 +98,7 @@ open class MapFragment : Fragment(){
         u_location = binding.location
         // 바텀시트
         behavior = BottomSheetBehavior.from(binding.bottomLayout)
+        behavior.halfExpandedRatio = 0.4f
         // 바텀시트 리사이클러 뷰
         roomRecyclerView = binding.recyclerView
         roomRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
