@@ -62,6 +62,7 @@ open class MapFragment : Fragment(){
     private var search_edit : EditText? = null
     private var search : String? = null
     private var spinner : Spinner? = null
+
     // spinner 작동이 처음 들어왔을 때는 안되기 때문에 넣어줌
     private var spinnerData : String = "desc"
 
@@ -69,7 +70,6 @@ open class MapFragment : Fragment(){
     var topData = arrayOf("전체보기" ,"정문", "중문", "후문", "서틀뒤", "농가마트", "기숙사 근처")
     var category : String? = null
     var t_position : Int? = null
-    var heartArrayList : ArrayList<String>? = null
     lateinit var u_pk : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -259,6 +259,7 @@ open class MapFragment : Fragment(){
     }
     // 위치 권한 확인
     private fun permissionCheck() {
+        // 위치 권환
         val preference = mainActivity.getPreferences(MODE_PRIVATE)
         val isFirstCheck = preference!!.getBoolean("isFirstPermissionCheck", true)
         if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
