@@ -20,7 +20,8 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:text="회원가입"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/black"
@@ -28,12 +29,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="20dp"
+            android:background="#dddddd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
         <EditText
             android:id="@+id/create_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="180dp"
             android:ems="8"
             android:hint="아이디"
             android:imeOptions="actionDone"
@@ -43,13 +54,23 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/check_id"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="30dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
+            android:textSize="12dp"
             android:background="@drawable/only_withe_edge"
             android:backgroundTint="#F2594B"
             android:text="중복 확인"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/create_id"
+            app:layout_constraintStart_toEndOf="@+id/create_id"
+            app:layout_constraintTop_toTopOf="@+id/create_id" />
+
+        <CheckBox
+            android:id="@+id/check_idt"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="13dp"
             app:layout_constraintBottom_toBottomOf="@+id/create_id"
             app:layout_constraintStart_toEndOf="@+id/create_id"
             app:layout_constraintTop_toTopOf="@+id/create_id" />

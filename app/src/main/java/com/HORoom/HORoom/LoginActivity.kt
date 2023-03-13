@@ -2,16 +2,14 @@ package com.HORoom.HORoom
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.HORoom.HORoom.DTO.checkDTO
@@ -39,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
     private var c_id : EditText? = null
     private var f_pw : EditText? = null
     private var s_pw : EditText? = null
+    private var checkbox : CheckBox? = null
     private var check_btn : AppCompatButton? = null
     private var join_btn : AppCompatButton? = null
     private val call by lazy { Retrofit_API.getInstance() }
@@ -62,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
         c_id = binding.createId
         f_pw = binding.fPw
         s_pw = binding.sPw
+        checkbox = binding.checkIdt
         check_btn = binding.checkId
         join_btn = binding.joinBtn
         u_key = MySharedPreferences.getUserKey(this)
@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
             mainView!!.visibility = View.INVISIBLE
             joinView!!.visibility = View.VISIBLE
 
-            // 아이디 중복 확인 // 회원가입만들기
+            // 아이디 중복 확인 // 회원가입 만들기
             check_btn!!.setOnClickListener {
 
                 call!!.idCheck(c_id!!.text.toString()).enqueue(object : Callback<checkDTO>{
@@ -90,10 +90,14 @@ class LoginActivity : AppCompatActivity() {
 
                             if (ch_result == false){
                                 check_btn!!.text = "중복 확인"
+                                checkbox!!.visibility = View.INVISIBLE
+                                check_btn!!.visibility = View.VISIBLE
                                 Toast.makeText(this@LoginActivity, "아이디가 중복됩니다", Toast.LENGTH_SHORT).show()
                             } else {
                                 ch_id = ch_result
-                                check_btn!!.text = "확인 완료"
+                                checkbox!!.isChecked = true
+                                checkbox!!.visibility = View.VISIBLE
+                                check_btn!!.visibility = View.INVISIBLE
                             }
                         }
                     }
@@ -106,7 +110,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             join_btn!!.setOnClickListener {
-                if (ch_id == true && f_pw!!.text.toString() == s_pw!!.text.toString()){
+                if (ch_id && f_pw!!.text.toString() == s_pw!!.text.toString()){
                     call!!.createID(login_data(c_id!!.text.toString(), f_pw!!.text.toString())).enqueue(object : Callback<checkDTO>{
                         override fun onResponse(call: Call<checkDTO>, response: Response<checkDTO>, ) {
                             if (response.isSuccessful){
