@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.HORoom.HORoom.ui.map.MapFragment"
+    tools:context="com.HORoom.toyproject.ui.map.MapFragment"
     android:animateLayoutChanges="true">
 
 
@@ -87,80 +87,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/innerConstarint" />
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_anchor="@+id/constraintLayout"
-            app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/top_white_edge"
+        app:behavior_expandedOffset="110dp"
+        app:behavior_fitToContents="false"
+        app:behavior_peekHeight="50dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:backgroundTint="@color/black"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="120dp"
+            android:layout_height="6dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/noside_white_edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bottom_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:behavior_expandedOffset="110dp"
-                app:behavior_fitToContents="false"
-                app:behavior_peekHeight="50dp"
-                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/bottom_sheet_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/top_white_edge"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <Spinner
-                        android:id="@+id/spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="15dp"
-                        android:spinnerMode="dropdown"
-                        android:backgroundTint="@color/black"
-                        android:verticalScrollbarPosition="left"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <View
-                    android:id="@+id/view"
-                    android:layout_width="240px"
-                    android:layout_height="12px"
-                    android:background="@drawable/noside_white_edge"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:paddingTop="5dp"
-                    android:backgroundTint="#eeeeee"
-                    android:paddingBottom="5dp"
-                    android:layout_marginBottom="95dp"
-                    android:background="#eeeeee"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_layout" />
+        </androidx.recyclerview.widget.RecyclerView>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

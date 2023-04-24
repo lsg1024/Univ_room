@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.toyproject">
+    package="com.HORoom.toyproject">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,13 +18,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.HORoom.HORoom.ui.map.detailActivity"
+            android:name="com.HORoom.toyproject.ui.map.detailActivity"
             android:exported="false" />
         <activity
-            android:name="com.HORoom.HORoom.PickActivity"
+            android:name="com.HORoom.toyproject.PickActivity"
             android:exported="false" />
         <activity
-            android:name="com.HORoom.HORoom.MainActivity"
+            android:name="com.HORoom.toyproject.MainActivity"
             android:exported="false" />
 
         <meta-data
@@ -32,7 +32,7 @@
             android:value="b287abc6b20a6232f29d4c2fb2b8d99a" />
 
         <activity
-            android:name="com.HORoom.HORoom.LoginActivity"
+            android:name="com.HORoom.toyproject.LoginActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -43,7 +43,7 @@
         </activity>
 
         <service
-            android:name="com.HORoom.HORoom.MainActivity"
+            android:name="com.HORoom.toyproject.MainActivity"
             android:foregroundServiceType="location" />
     </application>
 

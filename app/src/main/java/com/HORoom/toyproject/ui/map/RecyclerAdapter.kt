@@ -1,4 +1,4 @@
-package com.HORoom.HORoom.ui.map
+package com.HORoom.toyproject.ui.map
 
 import android.content.Context
 import android.content.Intent
@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.HORoom.HORoom.DTO.roomHeart
-import com.HORoom.HORoom.DTO.room_result
-import com.HORoom.HORoom.MainActivity
-import com.example.toyproject.R
-import com.HORoom.HORoom.`interface`.MySharedPreferences
-import com.HORoom.HORoom.`interface`.Retrofit_API
-import com.example.toyproject.databinding.RListItemBinding
+import com.HORoom.toyproject.DTO.roomHeart
+import com.HORoom.toyproject.DTO.room_result
+import com.HORoom.toyproject.MainActivity
+import com.HORoom.toyproject.R
+import com.HORoom.toyproject.databinding.RListItemBinding
+import com.HORoom.toyproject.`interface`.MySharedPreferences
+import com.HORoom.toyproject.`interface`.Retrofit_API
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -42,66 +42,22 @@ class RecyclerAdapter(val roomList : ArrayList<room_result>, var mapView: MapVie
         Log.d("onBindViewHolder", "onBindViewHolder")
 
         u_pk = MySharedPreferences.getUserKey(context)
-        try {
-            // 하트 유저가 아무도 없는 경우 개수가 0인 경우
-            if (roomList[position].heart_user.isNullOrEmpty()) {
-                holder.heart.setImageResource(R.drawable.favorite_24)
-                var heartData = true
-                holder.heart.setOnClickListener {
-                    if (heartData == true) {
-                        holder.heart.setImageResource(R.drawable.favorite)
-                        postHeart(u_pk.toInt(), roomList[position].room_pk)
-                        heartData = false
+        holder.heart.setImageResource(
+            if (roomList[position].heart_user?.split(",")?.contains(u_pk) == true) R.drawable.favorite else R.drawable.favorite_24
+        )
 
-                    } else {
-                        holder.heart.setImageResource(R.drawable.favorite_24)
-                        postHeart(u_pk.toInt(), roomList[position].room_pk)
-                        heartData = true
-                    }
-                }
-            // 0 초과인 경우
+        holder.heart.setOnClickListener {
+            val isHearted = roomList[position].heart_user?.split(",")?.contains(u_pk) == true
+            holder.heart.setImageResource(if (isHearted) R.drawable.favorite_24 else R.drawable.favorite)
+            postHeart(u_pk.toInt(), roomList[position].room_pk)
+
+            if (isHearted) {
+                roomList[position].heart_user = roomList[position].heart_user?.replace(",$u_pk", "")?.replace(u_pk, "")
             } else {
-                // 리스트에 하트에 자기 유저 키가 있는 경우
-                val split = roomList[position].heart_user?.split(",")
-                Log.d("onBindViewHoldersplit", "$split")
-                var heart = split!!.contains(u_pk)
-                // 자신의 하트가 있는 경우
-                if (heart == true){
-                    holder.heart.setImageResource(R.drawable.favorite)
-                    var tf = true
-                    holder.heart.setOnClickListener {
-                        if (tf == true) {
-                            holder.heart.setImageResource(R.drawable.favorite_24)
-                            postHeart(u_pk.toInt(), roomList[position].room_pk)
-                            tf = false
-                        }
-                        else {
-                            holder.heart.setImageResource(R.drawable.favorite)
-                            postHeart(u_pk.toInt(), roomList[position].room_pk)
-                            tf = true
-                        }
-                    }
-                }
-                // 자신의 하트가 없는 경우
-                else {
-                    holder.heart.setImageResource(R.drawable.favorite_24)
-                    var tf = false
-                    holder.heart.setOnClickListener {
-                        if (tf == false) {
-
-                            holder.heart.setImageResource(R.drawable.favorite)
-                            postHeart(u_pk.toInt(), roomList[position].room_pk)
-                            tf = true
-                        }
-                        else {
-                            holder.heart.setImageResource(R.drawable.favorite_24)
-                            postHeart(u_pk.toInt(), roomList[position].room_pk)
-                            tf = false
-                        }
-                    }
-                }
+                roomList[position].heart_user = "${roomList[position].heart_user},$u_pk"
             }
-        } catch (e : NullPointerException){}
+        }
+
 
         holder.apply {
             ls_title.text = roomList[position].roomName

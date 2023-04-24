@@ -1,4 +1,4 @@
-package com.HORoom.HORoom.`interface`
+package com.HORoom.toyproject.`interface`
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

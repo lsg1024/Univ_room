@@ -1,8 +1,7 @@
-package com.HORoom.HORoom
+package com.HORoom.toyproject
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,13 +11,17 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.HORoom.HORoom.DTO.checkDTO
-import com.HORoom.HORoom.DTO.loginDTO
-import com.HORoom.HORoom.DTO.login_data
-import com.HORoom.HORoom.`interface`.MySharedPreferences
-import com.HORoom.HORoom.`interface`.Retrofit_API
-import com.example.toyproject.databinding.ActivityLoginBinding
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.HORoom.toyproject.DTO.checkDTO
+import com.HORoom.toyproject.DTO.loginDTO
+import com.HORoom.toyproject.DTO.login_data
+import com.HORoom.toyproject.ViewModel.LoginViewModel
+import com.HORoom.toyproject.`interface`.MySharedPreferences
+import com.HORoom.toyproject.`interface`.Retrofit_API
+import com.HORoom.toyproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
+import com.kakao.util.maps.helper.Utility
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,11 +47,14 @@ class LoginActivity : AppCompatActivity() {
     var wait:Long = 0
     var ch_id : Boolean = false
     lateinit var u_key : String
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        loginViewModel = ViewModelProvider(this@LoginActivity)[LoginViewModel::class.java]
 
         mainView = binding.mainView
         joinView = binding.joinView
@@ -66,6 +72,25 @@ class LoginActivity : AppCompatActivity() {
         join_btn = binding.joinBtn
         u_key = MySharedPreferences.getUserKey(this)
 
+//      카카오 해시 키 오
+//        val keyHash = Utility.getKeyHash(this)
+//        Log.d("Hash", keyHash)
+
+        binding.loginBtn.setOnClickListener {
+            val userId = binding.id.text.toString()
+            val password = binding.pw.text.toString()
+
+            loginViewModel.login(userId, password)
+        }
+
+        loginViewModel.loginResult.observe(this, Observer { result ->
+            if (result) {
+                Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
+            } else {
+                // 로그인 실패 처리
+                Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     @SuppressLint("ObsoleteSdkInt")

@@ -1,4 +1,4 @@
-package com.HORoom.HORoom.ui.map
+package com.HORoom.toyproject.ui.map
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -15,13 +15,13 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.HORoom.HORoom.DTO.detail_data
-import com.HORoom.HORoom.DTO.postReport
-import com.HORoom.HORoom.DTO.report_comment
-import com.example.toyproject.R
-import com.HORoom.HORoom.`interface`.MySharedPreferences
-import com.HORoom.HORoom.`interface`.Retrofit_API
-import com.example.toyproject.databinding.DetailItemBinding
+import com.HORoom.toyproject.DTO.detail_data
+import com.HORoom.toyproject.DTO.postReport
+import com.HORoom.toyproject.DTO.report_comment
+import com.HORoom.toyproject.R
+import com.HORoom.toyproject.databinding.DetailItemBinding
+import com.HORoom.toyproject.`interface`.MySharedPreferences
+import com.HORoom.toyproject.`interface`.Retrofit_API
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

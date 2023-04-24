@@ -1,4 +1,4 @@
-package com.HORoom.HORoom.ui.userpage
+package com.HORoom.toyproject.ui.userpage
 
 import android.content.Context
 import android.content.Intent
@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.HORoom.HORoom.DTO.roomHeart
-import com.HORoom.HORoom.DTO.room_result
-import com.HORoom.HORoom.`interface`.MySharedPreferences
-import com.example.toyproject.R
-import com.HORoom.HORoom.`interface`.Retrofit_API
-import com.HORoom.HORoom.ui.map.detailActivity
-import com.example.toyproject.databinding.RListItem2Binding
+import com.HORoom.toyproject.DTO.roomHeart
+import com.HORoom.toyproject.DTO.room_result
+import com.HORoom.toyproject.R
+import com.HORoom.toyproject.databinding.RListItem2Binding
+import com.HORoom.toyproject.`interface`.MySharedPreferences
+import com.HORoom.toyproject.`interface`.Retrofit_API
+import com.HORoom.toyproject.ui.map.detailActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -77,19 +77,6 @@ class UserAdapter(val context: Context, val roomList : ArrayList<room_result>): 
     override fun getItemCount(): Int {
         return roomList.size
     }
-
-//    private val differCallback = object : DiffUtil.ItemCallback<room_result>(){
-//        override fun areItemsTheSame(oldItem: room_result, newItem: room_result): Boolean {
-//            return oldItem.room_pk == newItem.room_pk
-//        }
-//
-//        override fun areContentsTheSame(oldItem: room_result, newItem: room_result): Boolean {
-//            return oldItem == newItem
-//        }
-//    }
-//
-//    // 이 콜벡을 레트로핏 내에서 실행할 수 있게 해야된다
-//    val differ = AsyncListDiffer(this, differCallback)
 
     fun postHeart(u_pk: Int, r_pk: Int, holder: UserViewHolder){
         call!!.postHeart(u_pk, r_pk).enqueue(object  : Callback<roomHeart>{

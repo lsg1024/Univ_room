@@ -1,6 +1,6 @@
-package com.HORoom.HORoom.`interface`
+package com.HORoom.toyproject.`interface`
 
-import com.HORoom.HORoom.DTO.*
+import com.HORoom.toyproject.DTO.*
 import retrofit2.Call
 import retrofit2.http.*
 
