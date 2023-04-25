@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ui.userpage
+package com.horoom.toyproject.ui.userpage
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,14 +12,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.HORoom.toyproject.DTO.roomDTO
-import com.HORoom.toyproject.DTO.room_result
-import com.HORoom.toyproject.LoginActivity
-import com.HORoom.toyproject.MainActivity
-import com.HORoom.toyproject.R
-import com.HORoom.toyproject.databinding.FragmentUserpageBinding
-import com.HORoom.toyproject.`interface`.MySharedPreferences
-import com.HORoom.toyproject.`interface`.Retrofit_API
+import com.horoom.toyproject.DTO.roomDTO
+import com.horoom.toyproject.DTO.room_result
+import com.horoom.toyproject.LoginActivity
+import com.horoom.toyproject.MainActivity
+import com.horoom.toyproject.R
+import com.horoom.toyproject.databinding.FragmentUserpageBinding
+import com.horoom.toyproject.`interface`.MySharedPreferences
+import com.horoom.toyproject.`interface`.Retrofit_API
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

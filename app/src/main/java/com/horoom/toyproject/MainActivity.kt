@@ -1,4 +1,4 @@
-package com.HORoom.toyproject
+package com.horoom.toyproject
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.HORoom.toyproject.databinding.ActivityMainBinding
-import com.HORoom.toyproject.ui.map.MapFragment
-import com.HORoom.toyproject.ui.userpage.UserPageFragment
+import com.horoom.toyproject.databinding.ActivityMainBinding
+import com.horoom.toyproject.ui.map.MapFragment
+import com.horoom.toyproject.ui.userpage.UserPageFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator

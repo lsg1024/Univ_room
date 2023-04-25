@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ui.map
+package com.horoom.toyproject.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -25,12 +25,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.HORoom.toyproject.DTO.roomDTO
-import com.HORoom.toyproject.MainActivity
-import com.HORoom.toyproject.R
-import com.HORoom.toyproject.databinding.FragmentMapBinding
-import com.HORoom.toyproject.`interface`.MySharedPreferences
-import com.HORoom.toyproject.`interface`.Retrofit_API
+import com.horoom.toyproject.DTO.roomDTO
+import com.horoom.toyproject.MainActivity
+import com.horoom.toyproject.R
+import com.horoom.toyproject.databinding.FragmentMapBinding
+import com.horoom.toyproject.`interface`.MySharedPreferences
+import com.horoom.toyproject.`interface`.Retrofit_API
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint

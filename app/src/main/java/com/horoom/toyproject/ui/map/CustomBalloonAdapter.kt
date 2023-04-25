@@ -1,11 +1,11 @@
-package com.HORoom.toyproject.ui.map
+package com.horoom.toyproject.ui.map
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import com.HORoom.toyproject.DTO.room_result
-import com.HORoom.toyproject.R
+import com.horoom.toyproject.DTO.room_result
+import com.horoom.toyproject.R
 import net.daum.mf.map.api.CalloutBalloonAdapter
 import net.daum.mf.map.api.MapPOIItem
 

@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ui.userpage
+package com.horoom.toyproject.ui.userpage
 
 import android.content.Context
 import android.content.Intent
@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.HORoom.toyproject.DTO.roomHeart
-import com.HORoom.toyproject.DTO.room_result
-import com.HORoom.toyproject.R
-import com.HORoom.toyproject.databinding.RListItem2Binding
-import com.HORoom.toyproject.`interface`.MySharedPreferences
-import com.HORoom.toyproject.`interface`.Retrofit_API
-import com.HORoom.toyproject.ui.map.detailActivity
+import com.horoom.toyproject.DTO.roomHeart
+import com.horoom.toyproject.DTO.room_result
+import com.horoom.toyproject.R
+import com.horoom.toyproject.databinding.RListItem2Binding
+import com.horoom.toyproject.`interface`.MySharedPreferences
+import com.horoom.toyproject.`interface`.Retrofit_API
+import com.horoom.toyproject.ui.map.detailActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ViewModel
+package com.horoom.toyproject.ViewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +10,6 @@ class LoginViewModel : ViewModel() {
 
     fun login(userId: String, password: String) {
         // 로그인 로직
-        if (userId == "admin" && password == "password") {
-            _loginResult.value = true
-        } else {
-            _loginResult.value = false
-        }
+        _loginResult.value = userId == "" && password == ""
     }
 }

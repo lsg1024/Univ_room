@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context="com.HORoom.toyproject.ui.userpage.UserPageFragment">
+    tools:context="com.horoom.toyproject.ui.userpage.UserPageFragment">
 
 
     <ImageView

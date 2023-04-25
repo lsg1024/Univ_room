@@ -1,10 +1,10 @@
-package com.HORoom.toyproject
+package com.horoom.toyproject
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.AppCompatButton
-import com.HORoom.toyproject.databinding.ActivityPickBinding
+import com.horoom.toyproject.databinding.ActivityPickBinding
 
 class PickActivity : AppCompatActivity() {
 

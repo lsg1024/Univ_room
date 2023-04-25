@@ -1,4 +1,4 @@
-package com.HORoom.toyproject
+package com.horoom.toyproject
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -13,15 +13,14 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.HORoom.toyproject.DTO.checkDTO
-import com.HORoom.toyproject.DTO.loginDTO
-import com.HORoom.toyproject.DTO.login_data
-import com.HORoom.toyproject.ViewModel.LoginViewModel
-import com.HORoom.toyproject.`interface`.MySharedPreferences
-import com.HORoom.toyproject.`interface`.Retrofit_API
-import com.HORoom.toyproject.databinding.ActivityLoginBinding
+import com.horoom.toyproject.DTO.checkDTO
+import com.horoom.toyproject.DTO.loginDTO
+import com.horoom.toyproject.DTO.login_data
+import com.horoom.toyproject.ViewModel.LoginViewModel
+import com.horoom.toyproject.`interface`.MySharedPreferences
+import com.horoom.toyproject.`interface`.Retrofit_API
+import com.horoom.toyproject.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
-import com.kakao.util.maps.helper.Utility
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -163,8 +162,9 @@ class LoginActivity : AppCompatActivity() {
         if (u_key.isNotEmpty()){
             startActivity(intent)
             finish()
+
         } else{
-            l_btn?.setOnClickListener {
+            binding.loginBtn.setOnClickListener {
 
                 val i_id = id?.text.toString()
                 val i_pw = pw?.text.toString()
@@ -195,11 +195,6 @@ class LoginActivity : AppCompatActivity() {
                 }) // call retrofit2
             } // l_btn
 
-//            guest?.setOnClickListener {
-//                startActivity(intent)
-//                Toast.makeText(this@LoginActivity, "게스트 모드", Toast.LENGTH_SHORT).show()
-//                finish()
-//            }
         }
 
     }

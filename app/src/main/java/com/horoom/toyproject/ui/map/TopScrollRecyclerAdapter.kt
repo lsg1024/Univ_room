@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ui.map
+package com.horoom.toyproject.ui.map
 
 import android.content.Context
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.HORoom.toyproject.PickActivity
-import com.HORoom.toyproject.databinding.ScrollItemBinding
+import com.horoom.toyproject.PickActivity
+import com.horoom.toyproject.databinding.ScrollItemBinding
 
 class TopScrollRecyclerAdapter(val dataList: Array<String>, val context: Context) :
     RecyclerView.Adapter<TopScrollRecyclerAdapter.TopScrollHolder>() {

@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.ui.map
+package com.horoom.toyproject.ui.map
 
 import android.app.Dialog
 import android.content.Intent
@@ -15,14 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.HORoom.toyproject.DTO.del_result
-import com.HORoom.toyproject.DTO.detailDTO
-import com.HORoom.toyproject.DTO.detail_comment
-import com.HORoom.toyproject.DTO.detail_result_comment
-import com.HORoom.toyproject.R
-import com.HORoom.toyproject.databinding.ActivityDetailBinding
-import com.HORoom.toyproject.`interface`.MySharedPreferences
-import com.HORoom.toyproject.`interface`.Retrofit_API
+import com.horoom.toyproject.DTO.del_result
+import com.horoom.toyproject.DTO.detailDTO
+import com.horoom.toyproject.DTO.detail_comment
+import com.horoom.toyproject.DTO.detail_result_comment
+import com.horoom.toyproject.R
+import com.horoom.toyproject.databinding.ActivityDetailBinding
+import com.horoom.toyproject.`interface`.MySharedPreferences
+import com.horoom.toyproject.`interface`.Retrofit_API
 import com.bumptech.glide.Glide
 import retrofit2.Call
 import retrofit2.Callback

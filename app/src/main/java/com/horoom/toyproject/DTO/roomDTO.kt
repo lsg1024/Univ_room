@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.DTO
+package com.horoom.toyproject.DTO
 
 import com.google.gson.annotations.SerializedName
 

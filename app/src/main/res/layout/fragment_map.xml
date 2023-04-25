@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.HORoom.toyproject.ui.map.MapFragment"
+    tools:context="com.horoom.toyproject.ui.map.MapFragment"
     android:animateLayoutChanges="true">
 
 

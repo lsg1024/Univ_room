@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.`interface`
+package com.horoom.toyproject.`interface`
 
 import android.content.Context
 import android.content.SharedPreferences

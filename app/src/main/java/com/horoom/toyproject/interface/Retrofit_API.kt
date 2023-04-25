@@ -1,4 +1,4 @@
-package com.HORoom.toyproject.`interface`
+package com.horoom.toyproject.`interface`
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object Retrofit_API {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://oceanit.synology.me")
+        .baseUrl("http://oceanit.synology.me:8002")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

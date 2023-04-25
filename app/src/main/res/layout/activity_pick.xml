@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/main_background"
-    tools:context="com.HORoom.toyproject.PickActivity">
+    tools:context="com.horoom.toyproject.PickActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_1"
